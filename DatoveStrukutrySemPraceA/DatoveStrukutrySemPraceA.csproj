@@ -75,17 +75,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\Graf\Graf.cs" />
-    <Compile Include="Entity\Graf\Hrana.cs" />
     <Compile Include="Entity\ZeleznicniDoprava\Koleje.cs" />
     <Compile Include="Entity\ZeleznicniDoprava\Stanice.cs" />
-    <Compile Include="Entity\Graf\Vrchol.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\Persistence.cs" />
+    <Compile Include="Persistence\Perzistence.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
