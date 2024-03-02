@@ -59,7 +59,8 @@ namespace DatoveStrukutrySemPraceA
             grafStanic.PridejHranu("v18", "v27", new Koleje());
             grafStanic.PridejHranu("v19", "v28", new Koleje());
 
-            grafStanic.DejSeznamL();
+            //grafStanic.DejSeznamL();
+            grafStanic.DejSeznamR();
 
             //Perzistence<Stanice, Koleje>.UlozGrafDoSouboru("test.txt", grafStanic);
             //Graf<Stanice, Koleje> graf2 = Perzistence<Stanice, Koleje>.NactiGrafZeSouboru("test.txt");

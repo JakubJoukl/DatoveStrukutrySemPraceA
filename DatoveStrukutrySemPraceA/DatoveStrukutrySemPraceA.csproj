@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\Graf\Graf.cs" />
+    <Compile Include="Entity\Graf\ListEqualityComparer.cs" />
     <Compile Include="Entity\ZeleznicniDoprava\Koleje.cs" />
     <Compile Include="Entity\ZeleznicniDoprava\Stanice.cs" />
     <Compile Include="Form1.cs">
