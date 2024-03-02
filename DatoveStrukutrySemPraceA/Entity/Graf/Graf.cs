@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,15 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
         public void PridejVrchol(string nazevVrcholu, DV dataVrcholu, bool vstupniVrchol, bool koncovyVrchol)
         {
             Vrcholy[nazevVrcholu] = new Vrchol<DV, DH>() { Data = dataVrcholu, Nazev = nazevVrcholu, JeKoncovy = koncovyVrchol, JeVstupni = vstupniVrchol };
+        }
+
+        public void PridejPovolenouCestu(string nazevVrcholu, string nazevVrcholuZ, string nazevVrcholuDo) {
+            if (Vrcholy.ContainsKey(nazevVrcholuZ) && Vrcholy.ContainsKey(nazevVrcholuDo)) {
+                Vrchol<DV, DH> vrchol = Vrcholy[nazevVrcholu];
+                vrchol.PovoleneVrcholyZDo[nazevVrcholuZ] = nazevVrcholuDo;
+            } else {
+                throw new ArgumentException("Vrchol z/do neexistuje");
+            }
         }
 
         public void PridejVrchol(string nazevVrcholu, DV dataVrcholu) {
@@ -60,6 +70,8 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
                     cisloCesty++;
                 });
             }
+
+            Console.WriteLine("Velikost seznamu L: " + seznamL.Count);
             return seznamL;
         }
 
@@ -67,10 +79,14 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
             zkoumanaCesta.Add(vrchol.Nazev);
             //Co je treba osetrit - vrcholy s vice hranami a vrcholy co jsou koncove a zaroven z nich pokracuje cesta
             //Zde klonuji stavajici cestu - je nutne ji ulozit - je platna i bez toho, aniz bych dotraverzoval na konec - jedna se o mezi jakysi zaznam
+
+            //
+
             if (vrchol.JeKoncovy && vrchol.VychazejiciHrany.Any())
             {
                 foreach (Hrana<DV, DH> hrana in vrchol.VychazejiciHrany)
                 {
+                    if (!JePovolenaCesta(vrchol, hrana.CilovyVrchol, zkoumanaCesta)) continue;
                     //Pokud mam pouze jeden prvek v ceste, tak to znamena, ze v danem koncovem vrcholu jsem i zacal -> jedna se i o pocatecni - cestu velikosti 1 neukladam, nezajima me
                     if (zkoumanaCesta.Count > 1) {
                         List<String> kopieExistujiciCesty = new List<string>(zkoumanaCesta);
@@ -82,13 +98,14 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
             }
             else if (!vrchol.JeKoncovy && vrchol.VychazejiciHrany.Any())
             {
+                List<Hrana<DV, DH>> povoleneHrany = vrchol.VychazejiciHrany.Where((zkoumanaHrana) => JePovolenaCesta(vrchol, zkoumanaHrana.CilovyVrchol, zkoumanaCesta)).ToList();
                 //nejprve musim vytvorit ostatni cesty, pote mohu pracovat s tou aktualni 
-                for (int i = 1; i < vrchol.VychazejiciHrany.Count; i++) {
+                for (int i = 1; i < povoleneHrany.Count; i++) {
                     List<String> kopieExistujiciCesty = new List<string>(zkoumanaCesta);
                     vraceneCesty.Add(kopieExistujiciCesty);
-                    VytvorCestyZVrcholu(vrchol.VychazejiciHrany[i].CilovyVrchol, vraceneCesty, kopieExistujiciCesty);
+                    VytvorCestyZVrcholu(povoleneHrany[i].CilovyVrchol, vraceneCesty, kopieExistujiciCesty);
                 }
-                VytvorCestyZVrcholu(vrchol.VychazejiciHrany.First().CilovyVrchol, vraceneCesty, zkoumanaCesta);
+                VytvorCestyZVrcholu(povoleneHrany.First().CilovyVrchol, vraceneCesty, zkoumanaCesta);
             } else if (vrchol.JeKoncovy) {
                 return;
             }
@@ -171,7 +188,27 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
 
             //odeberu duplikaty
             seznamR = seznamR.Distinct(ListEqualityComparer<string>.Default).ToList();
+            Console.WriteLine("Velikost seznamu R: " + seznamR.Count);
             return seznamR;
+        }
+
+        //Pokud nemam zadane povolene cesty tak je povoleno vse
+        //Pokud mam v ceste pouze jeden Vrchol, tak to znamena, ze jsem ve stavajicim vrcholu - v aktualni implementaci toto neni povolene pro prvni bod - chovani je vyjimka? 
+        private bool JePovolenaCesta(Vrchol<DV, DH> vrchol, Vrchol<DV, DH> cilovyVrchol, List<String> cesta) {
+            if (vrchol.PovoleneVrcholyZDo.Count > 0)
+            {
+                if (cesta.Count <= 1)
+                {
+                    throw new ArgumentException("Je zadan seznam povolenych cest ale seznam je kratsi nez 1");
+                }
+                string nazevCilovehoVrcholu;
+                //Ziskam predposledni vlozeny prvek do cesty
+                vrchol.PovoleneVrcholyZDo.TryGetValue(cesta[cesta.Count() - 2], out nazevCilovehoVrcholu);
+                return nazevCilovehoVrcholu != null && nazevCilovehoVrcholu.Equals(cilovyVrchol.Nazev);
+            }
+            else {
+                return true;
+            }
         }
 
         //seznam hran
