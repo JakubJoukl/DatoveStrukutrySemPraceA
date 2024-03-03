@@ -51,7 +51,7 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
 
         //Seznam cest - v listu (dictionary s nejakym cislovanim?) budou ulozeny nazvy vrcholu
         public Dictionary<string, List<String>> DejSeznamL() {
-            Dictionary<string, List<String>> seznamL = new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> seznamL = new Dictionary<string, List<string>>();
             int cisloCesty = 1;
             Dictionary<string, Vrchol<DV, DH>> vstupniVrcholy = DejVstupniVrcholy();
             foreach (var vrcholNazev in vstupniVrcholy)
@@ -120,30 +120,32 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
 
             //kazdou cestu musim porovnat s kazdou cestou -> nejake dva cykly, jeden pro prochazeni pro veskere nalezene cesty
             //a druhy pro porovnavani vrcholu teto cesty s vrcholy ostatnich cest -> tim ziskam dvojice/trojice atd
-            //Pro spravne chovani musim uchovavat seznam jiz projitych vrcholu (jak se chova s krizovatkou?)
-            //Nejak budu muset hlidat v pripade nalezeni trojice/ctverice/petice i to, aby predchozi par nezanikl
-            //Bude vhodne ulohu omezit tak, aby v pripade nalezeni maximalniho paru (dvojice/trojice) se aktualni pruchod algoritmu ukoncil?
-            //TODO ted je tam bug - naleznu vzdy jen jendnu nejpocetnejsi disjunktni cestu mezi vrcholy (po oprave i jeji podcasti)
             //nejak potrebuji zajistit, aby v pripade nalezeni schody probehlo hledani znovu, ale bez zkoumani vrcholu z te cesty?
+
+            //nastartuji cykly pro dvojice z kazdeho vrcholu...
             foreach (var vnejsiCestaKlicHodnota in seznamCest)
             {
                 string vnejsiNazev = vnejsiCestaKlicHodnota.Key;
                 //Slo by i jako nejaky posun ve forcyklu? Mozna - algoritmus bude muset pridavat pouze ten prvni nalezeny vrchol
-                HashSet<string> seznamUzZkoumanychVrcholuCest = new HashSet<string>
-                {
-                    vnejsiNazev
-                };
+                HashSet<string> seznamUzZkoumanychVrcholuCest = new HashSet<string>();
+                seznamUzZkoumanychVrcholuCest.UnionWith(vnejsiCestaKlicHodnota.Value);
+
+                //Najde Ntice?
+                NajdiNtice(seznamUzZkoumanychVrcholuCest, new List<string> { vnejsiNazev }, seznamCest, seznamR);
+                //seznamR = seznamR.Distinct(ListEqualityComparer<string>.Default).ToList();
+
+                //seznamR.ForEach(s => Console.WriteLine("{" + string.Join(",", s.ToArray()) + "}"));
+                //Console.WriteLine("Velikost seznamu R: " + seznamR.Count);
 
                 //continue excludne porovnavani aktualni cesty sama se sebou
-                bool allMatchesHaveBeenFound = true;
-                do
-                {
+                /*bool allMatchesHaveBeenFound = true;
+                do {
                     //Tento list asi nebudu potrebovat?
                     List<string> vnejsiSeznamVrcholu = vnejsiCestaKlicHodnota.Value;
                     HashSet<string> navstiveneVrcholy = new HashSet<string>(vnejsiSeznamVrcholu);
                     List<string> seznamVylucnychCest = new List<string>
                     {
-                        vnejsiNazev
+                            vnejsiNazev
                     };
                     allMatchesHaveBeenFound = true;
                     foreach (var vnitrniCestaKlicHodnota in seznamCest)
@@ -173,7 +175,7 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
                             {
                                 //Zajistuje, aby byly zachovany i mensi podmnoziny nez je delka 3
                                 //Nekontroluje duplicitu dvojic/trojic/ctveric?
-                                allMatchesHaveBeenFound = false;
+                                    allMatchesHaveBeenFound = false;
                                 seznamR.Add(new List<string>(seznamVylucnychCest));
                                 Console.WriteLine("{" + string.Join(",", seznamVylucnychCest.ToArray()) + "}");
                             }
@@ -183,13 +185,60 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
                             }
                         }
                     }
-                } while (!allMatchesHaveBeenFound);
+                } while (!allMatchesHaveBeenFound);*/
             }
 
             //odeberu duplikaty
             seznamR = seznamR.Distinct(ListEqualityComparer<string>.Default).ToList();
             Console.WriteLine("Velikost seznamu R: " + seznamR.Count);
+            Dictionary<int, int> poctyMnozin = new Dictionary<int, int>();
+            poctyMnozin[2] = 0;
+            poctyMnozin[3] = 0;
+            poctyMnozin[4] = 0;
+            poctyMnozin[5] = 0;
+            seznamR.ForEach(mnozina => {
+                poctyMnozin[mnozina.Count] = poctyMnozin[mnozina.Count] + 1;
+            });
+
+            //seznamR.ForEach(s => Console.WriteLine("{" + string.Join(",", s.ToArray()) + "}"));
             return seznamR;
+        }
+
+        //Nejaka zasobnikova struktura
+        //Pro jeden cyklus?
+        public void NajdiNtice(HashSet<string> navstiveneVrcholyVCeste, List<string> aktualniDisjunktniCesty,
+            //seznamCest (seznamL) a seznamR jsou konstanty, nemodifikuji je zde!!!
+            Dictionary<string, List<String>> seznamCest, List<List<string>> seznamR)
+        {
+            foreach (var cesta in seznamCest)
+            {
+                //Pokud je vrchol v ceste tak pokracuji
+                if (aktualniDisjunktniCesty.Contains(cesta.Key))
+                    continue;
+
+                //Jedna se o vrcholy cesty
+                List<string> zkoumanaCesta = cesta.Value;
+
+                bool jeDisjunktni = true;
+                foreach (string cestaVrchol in zkoumanaCesta)
+                {
+                    if (navstiveneVrcholyVCeste.Contains(cestaVrchol))
+                    {
+                        jeDisjunktni = false; break;
+                    }
+                }
+                if (jeDisjunktni) {
+                    HashSet<string> kopieNavstivenychVrcholu = new HashSet<string>();
+                    kopieNavstivenychVrcholu.UnionWith(navstiveneVrcholyVCeste);
+                    kopieNavstivenychVrcholu.UnionWith(zkoumanaCesta);
+
+                    List<string> aktualniDisjunktniCestyKopie = new List<string>();
+                    aktualniDisjunktniCestyKopie.AddRange(aktualniDisjunktniCesty);
+                    aktualniDisjunktniCestyKopie.Add(cesta.Key);
+                    seznamR.Add(aktualniDisjunktniCestyKopie);
+                    NajdiNtice(kopieNavstivenychVrcholu, aktualniDisjunktniCestyKopie, seznamCest, seznamR);
+                }
+            }
         }
 
         //Pokud nemam zadane povolene cesty tak je povoleno vse

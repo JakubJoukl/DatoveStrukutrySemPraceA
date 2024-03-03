@@ -182,12 +182,11 @@ namespace DatoveStrukutrySemPraceA
             grafStanic.PridejHranu("v52", "v55", new Koleje());
             grafStanic.PridejHranu("v55", "v58", new Koleje());
             grafStanic.PridejHranu("v51", "v52", new Koleje());
-            grafStanic.PridejHranu("v53", "v52", new Koleje());
+            grafStanic.PridejHranu("v51", "v53", new Koleje());
             grafStanic.PridejHranu("v52", "v134", new Koleje());
             grafStanic.PridejHranu("v53", "v136", new Koleje());
             grafStanic.PridejHranu("v53", "v138", new Koleje());
 
-            grafStanic.PridejHranu("v60", "v63", new Koleje());
             grafStanic.PridejHranu("v63", "v74", new Koleje());
             grafStanic.PridejHranu("v63", "v73", new Koleje());
             grafStanic.PridejHranu("v69", "v73", new Koleje());
