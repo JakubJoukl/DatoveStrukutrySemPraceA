@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,13 @@ namespace DatoveStrukutrySemPraceA
             InitializeComponent();
 
         }
+
+        int posunKameryX = 0;
+        int posunKameryY = 0;
+        double meritko = 1.0;
+        int cisloNovehoVrcholu = 1;
+        Graf<Stanice, Koleje> grafStanic;
+        Button zvolenyPrvek;
 
         private Graf<Stanice, Koleje> DejPokusnyGraf()
         {
@@ -124,7 +132,13 @@ namespace DatoveStrukutrySemPraceA
             grafStanic.PridejVrchol("v86", new Stanice { Koncova = false, Pocatecni = false }, false, false);
             grafStanic.PridejVrchol("v87", new Stanice { Koncova = false, Pocatecni = false }, false, false);
             grafStanic.PridejVrchol("v88", new Stanice { Koncova = false, Pocatecni = false }, false, false);
-            grafStanic.PridejVrchol("v95", new Stanice { Koncova = false, Pocatecni = false }, false, false);
+
+            Stanice s95 = new Stanice { Koncova = false, Pocatecni = false };
+            grafStanic.PridejVrchol("v95", s95, false, false);
+
+            s95.PridejPovolenouCestu("v95", "v88", "v89");
+            s95.PridejPovolenouCestu("v95", "v87", "v90");
+
             grafStanic.PridejVrchol("v89", new Stanice { Koncova = false, Pocatecni = false }, false, false);
             grafStanic.PridejVrchol("v90", new Stanice { Koncova = false, Pocatecni = false }, false, false);
             grafStanic.PridejVrchol("v92", new Stanice { Koncova = false, Pocatecni = false }, false, false);
@@ -231,23 +245,86 @@ namespace DatoveStrukutrySemPraceA
             grafStanic.PridejHranu("v83", "v93", new Koleje());
             grafStanic.PridejHranu("v93", "v302", new Koleje());
 
-            grafStanic.PridejPovolenouCestu("v95", "v88", "v89");
-            grafStanic.PridejPovolenouCestu("v95", "v87", "v90");
-
             return grafStanic;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //Graf<Stanice, Koleje> grafStanic = DejPokusnyGraf();
             Graf<Stanice, Koleje> grafStanic = DejCelyGraf();
+            //Graf<Stanice, Koleje> grafStanic = DejCelyGraf();
 
             //grafStanic.DejSeznamL();
-            grafStanic.DejSeznamR();
+            Vypocty.DejSeznamR(grafStanic);
 
             //Perzistence<Stanice, Koleje>.UlozGrafDoSouboru("test.txt", grafStanic);
             //Graf<Stanice, Koleje> graf2 = Perzistence<Stanice, Koleje>.NactiGrafZeSouboru("test.txt");
+
+            this.zvolenyPrvek = vstupniUzel;
+            zvolenyPrvek.BackColor = Color.DarkOliveGreen;
+            ovladaciMenu.AutoSize = true;
             Console.WriteLine("Konec");
         }
+
+        private void prekresli() {
+            canvas.Invalidate();
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void ovladaciMenu_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void ovladaciMenu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void canvas_Paint(object sender, PaintEventArgs e)
+        {
+            //grafStanic.
+        }
+
+        private void vstupniUzel_click(object sender, EventArgs e)
+        {
+            zvyrazniVybraneTlacitko(vstupniUzel);
+        }
+
+        private void prujezdovyUzel_click(object sender, EventArgs e)
+        {
+            zvyrazniVybraneTlacitko(prujezdovyUzel);
+        }
+
+        private void koncovyUzel_click(object sender, EventArgs e)
+        {
+            zvyrazniVybraneTlacitko(koncovyUzel);
+        }
+
+        private void zvyrazniVybraneTlacitko(Button tlacitko) {
+            zvolenyPrvek.BackColor = Color.White;
+            zvolenyPrvek = tlacitko;
+            zvolenyPrvek.BackColor = Color.DarkGreen;
+            ovladaciMenu.Update();
+        }
+
+        private void canvas_Click(object sender, EventArgs e)
+        {
+            string nazevVrcholu = "v" + cisloNovehoVrcholu;
+            if (zvolenyPrvek == vstupniUzel)
+            {
+                grafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = false, Pocatecni = true }, true, false);
+            }
+            else if (zvolenyPrvek == prujezdovyUzel) {
+                grafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = false, Pocatecni = false }, false, false);
+            } else {
+                grafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = true, Pocatecni = false }, false, true);
+            }
+            cisloNovehoVrcholu++;
+            prekresli();
+        } 
     }
 }
