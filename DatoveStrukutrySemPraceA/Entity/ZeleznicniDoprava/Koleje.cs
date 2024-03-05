@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatoveStrukutrySemPraceA.Entity.ZeleznicniDoprava
 {
-    internal class Koleje
+    public class Koleje
     {
         
     }

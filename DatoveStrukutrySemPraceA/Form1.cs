@@ -1,4 +1,5 @@
-﻿using DatoveStrukutrySemPraceA.Entity.Graf;
+﻿using DatoveStrukutrySemPraceA.Editor;
+using DatoveStrukutrySemPraceA.Entity.Graf;
 using DatoveStrukutrySemPraceA.Entity.ZeleznicniDoprava;
 using DatoveStrukutrySemPraceA.Persistence;
 using System;
@@ -7,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +24,7 @@ namespace DatoveStrukutrySemPraceA
 
         }
 
-        int posunKameryX = 0;
-        int posunKameryY = 0;
-        double meritko = 1.0;
-        int cisloNovehoVrcholu = 1;
-        Graf<Stanice, Koleje> grafStanic;
+        Editor.Editor editor;
         Button zvolenyPrvek;
 
         private Graf<Stanice, Koleje> DejPokusnyGraf()
@@ -250,19 +248,21 @@ namespace DatoveStrukutrySemPraceA
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Graf<Stanice, Koleje> grafStanic = DejCelyGraf();
+            //Graf<Stanice, Koleje> grafStanic = DejCelyGraf();
             //Graf<Stanice, Koleje> grafStanic = DejCelyGraf();
 
             //grafStanic.DejSeznamL();
-            Vypocty.DejSeznamR(grafStanic);
+            //Vypocty.DejSeznamR(grafStanic);
 
             //Perzistence<Stanice, Koleje>.UlozGrafDoSouboru("test.txt", grafStanic);
             //Graf<Stanice, Koleje> graf2 = Perzistence<Stanice, Koleje>.NactiGrafZeSouboru("test.txt");
 
-            this.zvolenyPrvek = vstupniUzel;
+            editor = new Editor.Editor();
+            editor.GrafStanic = new Graf<Stanice, Koleje>();
+            editor.ZvolenyPrvek = Editor.Editor.TYP_PRVKU.VSTUPNI;
+            zvolenyPrvek = vstupniUzel;
             zvolenyPrvek.BackColor = Color.DarkOliveGreen;
             ovladaciMenu.AutoSize = true;
-            Console.WriteLine("Konec");
         }
 
         private void prekresli() {
@@ -286,25 +286,108 @@ namespace DatoveStrukutrySemPraceA
 
         private void canvas_Paint(object sender, PaintEventArgs e)
         {
-            //grafStanic.
+            Graphics g = e.Graphics;
+            Pen cernePero = new Pen(Color.Black, 2);
+
+            //nejprve nakreslim cesty
+            Pen cernePeroCar = new Pen(Color.Black, 5);
+            cernePeroCar.CustomEndCap = new AdjustableArrowCap(3, 3);
+            foreach (var vrcholNazev in editor.GrafStanic.dejSeznamVrcholu())
+            {
+                List<string> nasledniciVrcholu = editor.GrafStanic.DejNaslednikyVrcholu(vrcholNazev);
+                Stanice staniceZ = editor.GrafStanic.DejDataVrcholu(vrcholNazev);
+                foreach (var naslednikVrcholu in nasledniciVrcholu)
+                {
+                    Stanice staniceDo = editor.GrafStanic.DejDataVrcholu(naslednikVrcholu);
+                    List<Point> ciloveBody = DejStartovniAKonecnouPoziciCar(staniceZ.X, staniceZ.Y, staniceDo.X, staniceDo.Y);
+                    g.DrawLine(cernePeroCar, ciloveBody[0].X, ciloveBody[0].Y, ciloveBody[1].X, ciloveBody[1].Y);
+                }
+            }
+
+            //pote nakreslim vrcholy
+            foreach (var vrcholNazev in editor.GrafStanic.dejSeznamVrcholu())
+            {
+                Stanice stanice = editor.GrafStanic.DejDataVrcholu(vrcholNazev);
+                Brush stetecSBarvou = vrcholNazev.Equals(editor.VybranyVrchol)? Brushes.RoyalBlue : vrcholNazev.Equals(editor.NajetyVrchol) ? Brushes.DarkMagenta : stanice.Pocatecni? Brushes.Orange : stanice.Koncova? Brushes.IndianRed : Brushes.White;
+                if (stanice.Koncova || stanice.Pocatecni)
+                {
+                    Rectangle rec = new Rectangle((int)(stanice.X * editor.Meritko) - editor.Sirka / 2, (int)(stanice.Y * editor.Meritko) - editor.Sirka / 2, (int)(editor.Sirka * editor.Meritko), (int)(editor.Sirka * editor.Meritko));
+                    g.FillRectangle(stetecSBarvou, rec);
+                    g.DrawRectangle(cernePero, rec);
+                } else {
+                    RectangleF rec = new Rectangle((int)(stanice.X * editor.Meritko) - editor.Sirka / 2, (int)(stanice.Y * editor.Meritko) - editor.Sirka / 2, (int)(editor.Sirka * editor.Meritko), (int)(editor.Sirka * editor.Meritko));
+                    g.FillEllipse(stetecSBarvou, rec);
+                    g.DrawEllipse(cernePero, rec);
+                }
+            }
+        }
+
+        private List<Point> DejStartovniAKonecnouPoziciCar(int x1, int y1, int x2, int y2) {
+            int startX;
+            int startY;
+            int cilX;
+            int cilY;
+
+            if (Math.Abs(x1 - x2) < editor.Sirka) {
+                if (y1 < y2)
+                {
+                    //startY = y1 + editor.Sirka / 2;
+                    cilY = y2 - editor.Sirka / 2;
+                }
+                else
+                {
+                    //startY = y1 - editor.Sirka / 2;
+                    cilY = y2 + editor.Sirka / 2;
+                }
+                cilX = x2;
+            } else {
+                if (x1 < x2)
+                {
+                    //startX = x1 + editor.Sirka / 2;
+                    cilX = x2 - editor.Sirka / 2;
+                }
+                else {
+                    //startX = x1 - editor.Sirka / 2;
+                    cilX = x2 + editor.Sirka / 2;
+                }
+                cilY = y2;
+            }
+
+            /*
+            if (y1 < y2)
+            {
+                startY = y1 + editor.Sirka / 2;
+                cilY = y2 - editor.Sirka / 2;
+            }
+            else {
+                startY = y1 - editor.Sirka / 2;
+                cilY = y2 + editor.Sirka / 2;
+            }*/
+
+            return new List<Point>()
+            {
+                new Point(x1, y1),
+                new Point(cilX, cilY)
+            };
         }
 
         private void vstupniUzel_click(object sender, EventArgs e)
         {
-            zvyrazniVybraneTlacitko(vstupniUzel);
+            ZvyrazniVybraneTlacitko(vstupniUzel);
         }
 
         private void prujezdovyUzel_click(object sender, EventArgs e)
         {
-            zvyrazniVybraneTlacitko(prujezdovyUzel);
+            ZvyrazniVybraneTlacitko(prujezdovyUzel);
         }
 
         private void koncovyUzel_click(object sender, EventArgs e)
         {
-            zvyrazniVybraneTlacitko(koncovyUzel);
+            ZvyrazniVybraneTlacitko(koncovyUzel);
         }
 
-        private void zvyrazniVybraneTlacitko(Button tlacitko) {
+        private void ZvyrazniVybraneTlacitko(Button tlacitko) {
+            editor.ZvolenyPrvek = tlacitko == vstupniUzel? Editor.Editor.TYP_PRVKU.VSTUPNI : tlacitko == prujezdovyUzel? Editor.Editor.TYP_PRVKU.PRUJEZDOVY : Editor.Editor.TYP_PRVKU.VYSTUPNI; 
             zvolenyPrvek.BackColor = Color.White;
             zvolenyPrvek = tlacitko;
             zvolenyPrvek.BackColor = Color.DarkGreen;
@@ -313,18 +396,20 @@ namespace DatoveStrukutrySemPraceA
 
         private void canvas_Click(object sender, EventArgs e)
         {
-            string nazevVrcholu = "v" + cisloNovehoVrcholu;
-            if (zvolenyPrvek == vstupniUzel)
+            if (e is MouseEventArgs)
             {
-                grafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = false, Pocatecni = true }, true, false);
+                if(editor.Klik((MouseEventArgs)e)) prekresli();
             }
-            else if (zvolenyPrvek == prujezdovyUzel) {
-                grafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = false, Pocatecni = false }, false, false);
-            } else {
-                grafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = true, Pocatecni = false }, false, true);
-            }
-            cisloNovehoVrcholu++;
-            prekresli();
-        } 
+        }
+
+        private void canvas_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(editor.ZpracujPohybMysi(e)) prekresli();
+        }
     }
 }

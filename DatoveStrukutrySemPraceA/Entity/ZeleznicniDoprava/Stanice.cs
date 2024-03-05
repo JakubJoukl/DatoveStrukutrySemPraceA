@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatoveStrukutrySemPraceA.Entity.ZeleznicniDoprava
 {
-    internal class Stanice
+    public class Stanice
     {
 
         public bool Koncova { get; set; }

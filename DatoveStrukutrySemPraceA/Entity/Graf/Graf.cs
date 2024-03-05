@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DatoveStrukutrySemPraceA.Entity.Graf
 {
-    internal class Graf<DV, DH>
+    public class Graf<DV, DH>
     {
         private Dictionary<string, Vrchol<DV, DH>> Vrcholy { get; set; } = new Dictionary<string, Vrchol<DV, DH>>();
 
@@ -72,6 +72,22 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
             Vrchol<DV, DH> vrcholZ = Vrcholy[nazevVrcholuZ];
             Vrchol<DV, DH> vrcholDo = Vrcholy[nazevVrcholuDo];
             vrcholZ.PridejHranu(new Hrana<DV, DH> { Data = dataHrany, CilovyVrchol = vrcholDo });
+        }
+
+        public bool OdeberHranu(string nazevVrcholuZ, string nazevVrcholuDo)
+        {
+            Vrchol<DV, DH> vrcholZ = Vrcholy[nazevVrcholuZ];
+            Vrchol<DV, DH> vrcholDo = Vrcholy[nazevVrcholuDo];
+            Hrana <DV, DH> hrana = vrcholZ.VychazejiciHrany.Find((hledanaHrana) => {
+                return hledanaHrana.CilovyVrchol.Nazev.Equals(nazevVrcholuDo);
+            });
+
+            if (hrana != null)
+            {
+                vrcholZ.VychazejiciHrany.Remove(hrana);
+                return true;
+            }
+            return false;
         }
 
         private Dictionary<string, Vrchol<DV, DH>> DejVstupniVrcholy()
