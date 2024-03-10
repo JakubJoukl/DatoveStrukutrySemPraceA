@@ -90,6 +90,24 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
             return false;
         }
 
+        public bool OdeberVrchol(string vrchol) {
+            if (Vrcholy.ContainsKey(vrchol))
+            {
+                Vrcholy.Remove(vrchol);
+                foreach (var vrcholSMoznouReferenciKeyValue in Vrcholy)
+                {
+                    Vrchol<DV, DH> vrcholSMoznouReferenci = vrcholSMoznouReferenciKeyValue.Value;
+                    vrcholSMoznouReferenci.VychazejiciHrany.RemoveAll(hrana => {
+                        return hrana.CilovyVrchol.Nazev.Equals(vrchol);
+                    });
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
         private Dictionary<string, Vrchol<DV, DH>> DejVstupniVrcholy()
         {
             Dictionary<string, Vrchol<DV, DH>> vstupniVrcholy = new Dictionary<string, Vrchol<DV, DH>>();

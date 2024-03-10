@@ -21,7 +21,6 @@ namespace DatoveStrukutrySemPraceA
         public Form1()
         {
             InitializeComponent();
-
         }
 
         Editor.Editor editor;
@@ -259,7 +258,7 @@ namespace DatoveStrukutrySemPraceA
 
             editor = new Editor.Editor();
             editor.GrafStanic = new Graf<Stanice, Koleje>();
-            editor.ZvolenyPrvek = Editor.Editor.TYP_PRVKU.VSTUPNI;
+            editor.ZvolenyTypPrvku = Editor.Editor.TYP_PRVKU.VSTUPNI;
             zvolenyPrvek = vstupniUzel;
             zvolenyPrvek.BackColor = Color.DarkOliveGreen;
             ovladaciMenu.AutoSize = true;
@@ -290,8 +289,11 @@ namespace DatoveStrukutrySemPraceA
             Pen cernePero = new Pen(Color.Black, 2);
 
             //nejprve nakreslim cesty
-            Pen cernePeroCar = new Pen(Color.Black, 5);
-            cernePeroCar.CustomEndCap = new AdjustableArrowCap(3, 3);
+            Pen cernePeroCar = new Pen(Color.Black, (int)(5 * editor.Meritko));
+
+            int velikostKonce = (int)(5 * editor.Meritko < 3 ? 3 : editor.Meritko * 5 > 10 ? 10 : 5 * editor.Meritko);
+
+            cernePeroCar.CustomEndCap = new AdjustableArrowCap(velikostKonce, velikostKonce);
             foreach (var vrcholNazev in editor.GrafStanic.dejSeznamVrcholu())
             {
                 List<string> nasledniciVrcholu = editor.GrafStanic.DejNaslednikyVrcholu(vrcholNazev);
@@ -300,7 +302,7 @@ namespace DatoveStrukutrySemPraceA
                 {
                     Stanice staniceDo = editor.GrafStanic.DejDataVrcholu(naslednikVrcholu);
                     List<Point> ciloveBody = DejStartovniAKonecnouPoziciCar(staniceZ.X, staniceZ.Y, staniceDo.X, staniceDo.Y);
-                    g.DrawLine(cernePeroCar, ciloveBody[0].X, ciloveBody[0].Y, ciloveBody[1].X, ciloveBody[1].Y);
+                    g.DrawLine(cernePeroCar, (int)(ciloveBody[0].X * editor.Meritko) + editor.PosunKameryX, (int)(ciloveBody[0].Y * editor.Meritko) + editor.PosunKameryY, (int)(ciloveBody[1].X * editor.Meritko) + editor.PosunKameryX, (int)(ciloveBody[1].Y * editor.Meritko) + editor.PosunKameryY);
                 }
             }
 
@@ -308,17 +310,28 @@ namespace DatoveStrukutrySemPraceA
             foreach (var vrcholNazev in editor.GrafStanic.dejSeznamVrcholu())
             {
                 Stanice stanice = editor.GrafStanic.DejDataVrcholu(vrcholNazev);
-                Brush stetecSBarvou = vrcholNazev.Equals(editor.VybranyVrchol)? Brushes.RoyalBlue : vrcholNazev.Equals(editor.NajetyVrchol) ? Brushes.DarkMagenta : stanice.Pocatecni? Brushes.Orange : stanice.Koncova? Brushes.IndianRed : Brushes.White;
+                Brush stetecSBarvou = vrcholNazev.Equals(editor.VybranyVrchol)? Brushes.RoyalBlue : vrcholNazev.Equals(editor.NajetyVrchol) ? Brushes.DarkMagenta : (stanice.Koncova && stanice.Pocatecni)? Brushes.Lime : stanice.Pocatecni? Brushes.Orange : stanice.Koncova? Brushes.IndianRed : Brushes.White;
                 if (stanice.Koncova || stanice.Pocatecni)
                 {
-                    Rectangle rec = new Rectangle((int)(stanice.X * editor.Meritko) - editor.Sirka / 2, (int)(stanice.Y * editor.Meritko) - editor.Sirka / 2, (int)(editor.Sirka * editor.Meritko), (int)(editor.Sirka * editor.Meritko));
+                    Rectangle rec = new Rectangle(
+                        (int)((stanice.X * editor.Meritko) - (editor.Sirka * editor.Meritko) / 2) + editor.PosunKameryX,
+                        (int)((stanice.Y * editor.Meritko) - (editor.Sirka * editor.Meritko) / 2) + editor.PosunKameryY,
+                        (int)(editor.Sirka * editor.Meritko),
+                        (int)(editor.Sirka * editor.Meritko)
+                    );
                     g.FillRectangle(stetecSBarvou, rec);
                     g.DrawRectangle(cernePero, rec);
                 } else {
-                    RectangleF rec = new Rectangle((int)(stanice.X * editor.Meritko) - editor.Sirka / 2, (int)(stanice.Y * editor.Meritko) - editor.Sirka / 2, (int)(editor.Sirka * editor.Meritko), (int)(editor.Sirka * editor.Meritko));
+                    RectangleF rec = new Rectangle(
+                        (int)((stanice.X * editor.Meritko) - (editor.Sirka * editor.Meritko) / 2) + editor.PosunKameryX,
+                        (int)((stanice.Y * editor.Meritko) - (editor.Sirka * editor.Meritko) / 2) + editor.PosunKameryY,
+                        (int)(editor.Sirka * editor.Meritko),
+                        (int)(editor.Sirka * editor.Meritko)
+                    );
                     g.FillEllipse(stetecSBarvou, rec);
                     g.DrawEllipse(cernePero, rec);
                 }
+                g.DrawString(vrcholNazev, DefaultFont, Brushes.Black, new Point((int)((stanice.X + editor.Sirka / 2 + 5) * editor.Meritko) + editor.PosunKameryX, (int)((stanice.Y + editor.Sirka / 2 + 5) * editor.Meritko) + editor.PosunKameryY));
             }
         }
 
@@ -386,8 +399,29 @@ namespace DatoveStrukutrySemPraceA
             ZvyrazniVybraneTlacitko(koncovyUzel);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ZvyrazniVybraneTlacitko(presunUzel);
+        }
+
+        private void vstupniKoncovy_Click(object sender, EventArgs e)
+        {
+            ZvyrazniVybraneTlacitko(vstupniKoncovy);
+        }
+
         private void ZvyrazniVybraneTlacitko(Button tlacitko) {
-            editor.ZvolenyPrvek = tlacitko == vstupniUzel? Editor.Editor.TYP_PRVKU.VSTUPNI : tlacitko == prujezdovyUzel? Editor.Editor.TYP_PRVKU.PRUJEZDOVY : Editor.Editor.TYP_PRVKU.VYSTUPNI; 
+            if (tlacitko == presunUzel)
+            {
+                editor.ZvolenyTypPrvku = null;
+                editor.ProvadenaAkce = Editor.Editor.TYP_AKCE.PRESUN_BODU;
+                editor.PredchoziAkce = Editor.Editor.TYP_AKCE.PRESUN_BODU;
+            }
+            else
+            {
+                editor.ZvolenyTypPrvku = tlacitko == vstupniUzel ? Editor.Editor.TYP_PRVKU.VSTUPNI : tlacitko == prujezdovyUzel ? Editor.Editor.TYP_PRVKU.PRUJEZDOVY : tlacitko == koncovyUzel? Editor.Editor.TYP_PRVKU.VYSTUPNI : Editor.Editor.TYP_PRVKU.VSTUPNI_VYSTUPNI;
+                editor.ProvadenaAkce = Editor.Editor.TYP_AKCE.VYTVOR_VRCHOL;
+                editor.PredchoziAkce = Editor.Editor.TYP_AKCE.VYTVOR_VRCHOL;
+            }
             zvolenyPrvek.BackColor = Color.White;
             zvolenyPrvek = tlacitko;
             zvolenyPrvek.BackColor = Color.DarkGreen;
@@ -404,12 +438,126 @@ namespace DatoveStrukutrySemPraceA
 
         private void canvas_MouseDown(object sender, MouseEventArgs e)
         {
+            string nazevNakliklehoVrcholu = editor.DejNazevNaklikleCtvercoveVzdalenostiVrcholu(e);
+            if (nazevNakliklehoVrcholu == null)
+            {
+                if (Control.ModifierKeys == Keys.Control)
+                {
+                    editor.ZahajPohybKamery(e);
+                }
+            } else if (editor.ProvadenaAkce == Editor.Editor.TYP_AKCE.PRESUN_BODU) {
+                editor.VybranyVrchol = nazevNakliklehoVrcholu;
+                editor.PrenastavSouradniceStanice(e);
+            }
+        }
 
+        private void canvas_MouseUp(object sender, MouseEventArgs e)
+        {
+            editor.UkonciProvadenouAkci(e);
         }
 
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if(editor.ZpracujPohybMysi(e)) prekresli();
+        }
+
+        private void canvas_MouseWheel(object sender, MouseEventArgs e) {
+            int scrollDirection = e.Delta;
+            if (scrollDirection > 0)
+            {
+                editor.Meritko += 0.01;
+            }
+            else {
+                if (editor.Meritko > 0.05)
+                {
+                    editor.Meritko -= 0.01;
+                }
+            }
+            prekresli();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void vystupSeznamu_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dejSeznamL_click(object sender, EventArgs e)
+        {
+            string radky = DejVystupSeznamuL();
+            vystupSeznamu.Text = radky;
+        }
+
+        private void seznamR_click(object sender, EventArgs e)
+        {
+            string radky = "Seznam L:" + Environment.NewLine;
+            radky += DejVystupSeznamuL();
+            radky += "Seznam R:" + Environment.NewLine;
+            radky += DejVystupSeznamuR();
+            vystupSeznamu.Text = radky;
+        }
+
+        private string DejVystupSeznamuL()
+        {
+            string radky = "";
+            Dictionary<string, List<string>> seznamL = Vypocty.DejSeznamL(editor.GrafStanic);
+            foreach (var klicHodnodnota in seznamL)
+            {
+                string radek = klicHodnodnota.Key + ": { ";
+                for (int i = 0; i < klicHodnodnota.Value.Count; i++)
+                {
+                    if (i < klicHodnodnota.Value.Count - 1)
+                    {
+                        radek += klicHodnodnota.Value[i] + ", ";
+                    }
+                    else
+                    {
+                        radek += klicHodnodnota.Value[i];
+                    }
+                }
+                radek += " }";
+                radky += radek + Environment.NewLine;
+            }
+
+            return radky;
+        }
+
+        private string DejVystupSeznamuR() {
+            string radky = "";
+            int cisloCesty = 1;
+            List<List<string>> seznamR = Vypocty.DejSeznamR(editor.GrafStanic);
+            foreach (var cesta in seznamR) {
+                string radek = "C" + cisloCesty + " {";
+
+                for(int i = 0; i < cesta.Count; i++)
+                {
+                    if (i < cesta.Count - 1)
+                    {
+                        radek += cesta[i] + ", ";
+                    }
+                    else
+                    {
+                        radek += cesta[i];
+                    }
+                }
+
+                radek += " }";
+                radky += radek + Environment.NewLine;
+                cisloCesty++;
+            }
+
+            return radky;
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Parent = this;
+            form1.ShowDialog();
         }
     }
 }

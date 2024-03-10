@@ -1,4 +1,6 @@
-﻿namespace DatoveStrukutrySemPraceA
+﻿using System.Windows.Forms;
+
+namespace DatoveStrukutrySemPraceA
 {
     partial class Form1
     {
@@ -32,7 +34,13 @@
             this.vstupniUzel = new System.Windows.Forms.Button();
             this.prujezdovyUzel = new System.Windows.Forms.Button();
             this.koncovyUzel = new System.Windows.Forms.Button();
+            this.presunUzel = new System.Windows.Forms.Button();
+            this.seznamL = new System.Windows.Forms.Button();
             this.canvas = new System.Windows.Forms.PictureBox();
+            this.seznamR = new System.Windows.Forms.Button();
+            this.vystupSeznamu = new System.Windows.Forms.TextBox();
+            this.vstupniKoncovy = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.ovladaciMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.SuspendLayout();
@@ -43,6 +51,12 @@
             this.ovladaciMenu.Controls.Add(this.vstupniUzel);
             this.ovladaciMenu.Controls.Add(this.prujezdovyUzel);
             this.ovladaciMenu.Controls.Add(this.koncovyUzel);
+            this.ovladaciMenu.Controls.Add(this.vstupniKoncovy);
+            this.ovladaciMenu.Controls.Add(this.presunUzel);
+            this.ovladaciMenu.Controls.Add(this.button1);
+            this.ovladaciMenu.Controls.Add(this.seznamL);
+            this.ovladaciMenu.Controls.Add(this.seznamR);
+            this.ovladaciMenu.Controls.Add(this.vystupSeznamu);
             this.ovladaciMenu.Dock = System.Windows.Forms.DockStyle.Right;
             this.ovladaciMenu.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.ovladaciMenu.Location = new System.Drawing.Point(965, 0);
@@ -83,6 +97,27 @@
             this.koncovyUzel.UseVisualStyleBackColor = true;
             this.koncovyUzel.Click += new System.EventHandler(this.koncovyUzel_click);
             // 
+            // presunUzel
+            // 
+            this.presunUzel.Location = new System.Drawing.Point(33, 145);
+            this.presunUzel.Name = "presunUzel";
+            this.presunUzel.Size = new System.Drawing.Size(135, 23);
+            this.presunUzel.TabIndex = 3;
+            this.presunUzel.Text = "Přesuň existující uzel";
+            this.presunUzel.UseVisualStyleBackColor = true;
+            this.presunUzel.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // seznamL
+            // 
+            this.seznamL.BackColor = System.Drawing.Color.Orange;
+            this.seznamL.Location = new System.Drawing.Point(33, 203);
+            this.seznamL.Name = "seznamL";
+            this.seznamL.Size = new System.Drawing.Size(135, 23);
+            this.seznamL.TabIndex = 4;
+            this.seznamL.Text = "Dej seznam L";
+            this.seznamL.UseVisualStyleBackColor = false;
+            this.seznamL.Click += new System.EventHandler(this.dejSeznamL_click);
+            // 
             // canvas
             // 
             this.canvas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -98,6 +133,48 @@
             this.canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.canvas_Paint);
             this.canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseDown);
             this.canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseMove);
+            this.canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseUp);
+            this.canvas.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseWheel);
+            // 
+            // seznamR
+            // 
+            this.seznamR.BackColor = System.Drawing.Color.Orange;
+            this.seznamR.Location = new System.Drawing.Point(33, 232);
+            this.seznamR.Name = "seznamR";
+            this.seznamR.Size = new System.Drawing.Size(135, 23);
+            this.seznamR.TabIndex = 5;
+            this.seznamR.Text = "Dej seznam R";
+            this.seznamR.UseVisualStyleBackColor = false;
+            this.seznamR.Click += new System.EventHandler(this.seznamR_click);
+            // 
+            // vystupSeznamu
+            // 
+            this.vystupSeznamu.Location = new System.Drawing.Point(33, 261);
+            this.vystupSeznamu.Multiline = true;
+            this.vystupSeznamu.Name = "vystupSeznamu";
+            this.vystupSeznamu.Size = new System.Drawing.Size(135, 366);
+            this.vystupSeznamu.TabIndex = 6;
+            this.vystupSeznamu.TextChanged += new System.EventHandler(this.vystupSeznamu_TextChanged);
+            // 
+            // vstupniKoncovy
+            // 
+            this.vstupniKoncovy.Location = new System.Drawing.Point(33, 100);
+            this.vstupniKoncovy.Name = "vstupniKoncovy";
+            this.vstupniKoncovy.Size = new System.Drawing.Size(135, 39);
+            this.vstupniKoncovy.TabIndex = 7;
+            this.vstupniKoncovy.Text = "Vytvoř vstupní koncový uzel";
+            this.vstupniKoncovy.UseVisualStyleBackColor = true;
+            this.vstupniKoncovy.Click += new System.EventHandler(this.vstupniKoncovy_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(33, 174);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(135, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Přidej výlučnou cestu...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_2);
             // 
             // Form1
             // 
@@ -111,6 +188,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.ovladaciMenu.ResumeLayout(false);
+            this.ovladaciMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.ResumeLayout(false);
 
@@ -123,6 +201,12 @@
         public System.Windows.Forms.Button vstupniUzel;
         public System.Windows.Forms.Button koncovyUzel;
         public System.Windows.Forms.Button prujezdovyUzel;
+        private Button presunUzel;
+        private Button seznamL;
+        private Button seznamR;
+        private TextBox vystupSeznamu;
+        private Button vstupniKoncovy;
+        private Button button1;
     }
 }
 
