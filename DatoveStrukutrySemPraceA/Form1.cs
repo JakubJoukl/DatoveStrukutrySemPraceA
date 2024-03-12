@@ -9,6 +9,7 @@ using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -310,7 +311,7 @@ namespace DatoveStrukutrySemPraceA
             foreach (var vrcholNazev in editor.GrafStanic.dejSeznamVrcholu())
             {
                 Stanice stanice = editor.GrafStanic.DejDataVrcholu(vrcholNazev);
-                Brush stetecSBarvou = vrcholNazev.Equals(editor.VybranyVrchol)? Brushes.RoyalBlue : vrcholNazev.Equals(editor.NajetyVrchol) ? Brushes.DarkMagenta : (stanice.Koncova && stanice.Pocatecni)? Brushes.Lime : stanice.Pocatecni? Brushes.Orange : stanice.Koncova? Brushes.IndianRed : Brushes.White;
+                Brush stetecSBarvou = vrcholNazev.Equals(editor.VybranyVrchol)? Brushes.RoyalBlue : vrcholNazev.Equals(editor.NajetyVrchol) ? Brushes.DarkMagenta : stanice.PovoleneStaniceZDo.Count > 0? Brushes.Olive : (stanice.Koncova && stanice.Pocatecni)? Brushes.Lime : stanice.Pocatecni? Brushes.Orange : stanice.Koncova? Brushes.IndianRed : Brushes.White;
                 if (stanice.Koncova || stanice.Pocatecni)
                 {
                     Rectangle rec = new Rectangle(
@@ -401,7 +402,9 @@ namespace DatoveStrukutrySemPraceA
 
         private void button1_Click(object sender, EventArgs e)
         {
+            editor.VybranyVrchol = null;
             ZvyrazniVybraneTlacitko(presunUzel);
+            prekresli();
         }
 
         private void vstupniKoncovy_Click(object sender, EventArgs e)
@@ -465,12 +468,12 @@ namespace DatoveStrukutrySemPraceA
             int scrollDirection = e.Delta;
             if (scrollDirection > 0)
             {
-                editor.Meritko += 0.01;
+                editor.Meritko *= 1.02;
             }
             else {
                 if (editor.Meritko > 0.05)
                 {
-                    editor.Meritko -= 0.01;
+                    editor.Meritko /= 1.02;
                 }
             }
             prekresli();
@@ -555,9 +558,66 @@ namespace DatoveStrukutrySemPraceA
 
         private void button1_Click_2(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
-            form1.Parent = this;
-            form1.ShowDialog();
+            Form2 form2 = new Form2();
+            //form2.Parent = this;
+            form2.ShowDialog();
+            if (form2.klikNaPotvrdit) {
+                string prvniZ = form2.vylucneCesty["prvniZ"];
+                string prvniDo = form2.vylucneCesty["prvniDo"];
+                string druhaZ = form2.vylucneCesty["druhyZ"];
+                string druhaDo = form2.vylucneCesty["druhyDo"];
+                string vyhybka = form2.vylucneCesty["vyhybka"];
+                if (prvniZ != null && prvniDo != null && druhaZ != null && druhaDo != null && vyhybka != null)
+                {
+                    editor.GrafStanic.DejDataVrcholu(prvniZ);
+                    editor.GrafStanic.DejDataVrcholu(prvniDo);
+                    editor.GrafStanic.DejDataVrcholu(druhaZ);
+                    editor.GrafStanic.DejDataVrcholu(druhaDo);
+                    editor.GrafStanic.DejDataVrcholu(vyhybka);
+                    if (prvniZ == null || prvniDo == null || druhaZ == null || druhaDo == null || vyhybka == null
+                        || !editor.GrafStanic.DejNaslednikyVrcholu(prvniZ).Contains(vyhybka)
+                        || !editor.GrafStanic.DejNaslednikyVrcholu(vyhybka).Contains(prvniDo)
+                        || !editor.GrafStanic.DejNaslednikyVrcholu(druhaZ).Contains(vyhybka)
+                        || !editor.GrafStanic.DejNaslednikyVrcholu(vyhybka).Contains(druhaDo)
+                        )
+                    {
+                        throw new Exception("Některý z vrcholů v grafu neexistuje");
+                    }
+                    else
+                    {
+                        Stanice staniceVyhybky = editor.GrafStanic.DejDataVrcholu(vyhybka);
+                        staniceVyhybky.PridejPovolenouCestu(vyhybka, prvniZ, prvniDo);
+                        staniceVyhybky.PridejPovolenouCestu(vyhybka, druhaZ, druhaDo);
+                        prekresli();
+                    }
+                }
+                else {
+                    throw new Exception("Některý z vrcholů v grafu neexistuje");
+                }
+            }
+        }
+
+        private void exportSeznamLDoSouboru_click(object sender, EventArgs e)
+        {
+            UlozTextDoSouboru(DejVystupSeznamuL());
+        }
+
+        private void exportSeznamRDoSouboru_Click(object sender, EventArgs e)
+        {
+            UlozTextDoSouboru(DejVystupSeznamuR());
+        }
+
+        private void UlozTextDoSouboru(string ukladanyText) {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "TXT soubory (*.txt)|*.txt";
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                // First Event Creates file and writes default content to it - works ok 
+                File.WriteAllText(saveFileDialog.FileName, ukladanyText); 
+                //NewFileCreated(this, new FileCreatedEventArgs() { Template = Template.BBMF, FilePath = saveFileDialog.FileName });
+            }
         }
     }
 }

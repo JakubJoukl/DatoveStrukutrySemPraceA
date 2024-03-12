@@ -109,26 +109,9 @@ namespace DatoveStrukutrySemPraceA.Editor
 
         private bool ZpracujKlikNaCtvercovouVzdalenostVrcholu(MouseEventArgs mouseEventArgs, string vrcholNazev)
         {
-            if (Control.ModifierKeys == Keys.Shift) {
-                GrafStanic.DejDataVrcholu(vrcholNazev);
-                foreach (var nazevVrcholu in GrafStanic.dejSeznamVrcholu()) {
-                    Stanice stanice = GrafStanic.DejDataVrcholu(nazevVrcholu);
-                    List<string> cestyKeSmazani = new List<string>();
-
-                    foreach (var povolenaCestaZDo in stanice.PovoleneStaniceZDo)
-                    {
-                        string cestaZ = povolenaCestaZDo.Key;
-                        string cestaDo = povolenaCestaZDo.Value;
-                        if (cestaZ.Equals(vrcholNazev) || cestaDo.Equals(vrcholNazev)) { 
-                            cestyKeSmazani.Add(cestaZ);
-                        }
-                    }
-                    foreach (var cesta in cestyKeSmazani) {
-                        stanice.PovoleneStaniceZDo.Remove(cesta);
-                    }
-                }
-                GrafStanic.OdeberVrchol(vrcholNazev);
-                VybranyVrchol = null;
+            if (Control.ModifierKeys == Keys.Shift)
+            {
+                OdeberVrchol(vrcholNazev);
                 return true;
             }
             if (VybranyVrchol == null)
@@ -157,6 +140,32 @@ namespace DatoveStrukutrySemPraceA.Editor
                 VybranyVrchol = null;
                 return true;
             }
+        }
+
+        private void OdeberVrchol(string vrcholNazev)
+        {
+            GrafStanic.DejDataVrcholu(vrcholNazev);
+            foreach (var nazevVrcholu in GrafStanic.dejSeznamVrcholu())
+            {
+                Stanice stanice = GrafStanic.DejDataVrcholu(nazevVrcholu);
+                List<string> cestyKeSmazani = new List<string>();
+
+                foreach (var povolenaCestaZDo in stanice.PovoleneStaniceZDo)
+                {
+                    string cestaZ = povolenaCestaZDo.Key;
+                    string cestaDo = povolenaCestaZDo.Value;
+                    if (cestaZ.Equals(vrcholNazev) || cestaDo.Equals(vrcholNazev))
+                    {
+                        cestyKeSmazani.Add(cestaZ);
+                    }
+                }
+                foreach (var cesta in cestyKeSmazani)
+                {
+                    stanice.PovoleneStaniceZDo.Remove(cesta);
+                }
+            }
+            GrafStanic.OdeberVrchol(vrcholNazev);
+            VybranyVrchol = null;
         }
 
         //true pokud doslo k zmene pozadujici prekresleni
