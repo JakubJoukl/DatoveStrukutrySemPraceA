@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.Eventing.Reader;
@@ -11,12 +12,11 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
 {
     public class Graf<DV, DH>
     {
+        [JsonProperty]
         private Dictionary<string, Vrchol<DV, DH>> Vrcholy { get; set; } = new Dictionary<string, Vrchol<DV, DH>>();
-
         public List<string> dejSeznamVrcholu() { 
             return Vrcholy.Keys.ToList();
         }
-
         public Dictionary<string, string> DejVstupniVrcholyStruktury()
         {
             Dictionary<string, string> vstupniVrcholy = new Dictionary<string, string>();
@@ -59,13 +59,13 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
             throw new Exception("Hrana mezi vrcholy nenalezena");
         }
 
-        public void PridejVrchol(string nazevVrcholu, DV dataVrcholu, bool vstupniVrchol, bool koncovyVrchol)
+        public void PridejVrchol(string nazevVrcholu, DV dataVrcholu, bool vstupniVrchol)
         {
-            Vrcholy[nazevVrcholu] = new Vrchol<DV, DH>() { Data = dataVrcholu, Nazev = nazevVrcholu, JeKoncovy = koncovyVrchol, JeVstupni = vstupniVrchol };
+            Vrcholy[nazevVrcholu] = new Vrchol<DV, DH>() { Data = dataVrcholu, Nazev = nazevVrcholu, JeVstupni = vstupniVrchol };
         }
 
         public void PridejVrchol(string nazevVrcholu, DV dataVrcholu) {
-            PridejVrchol(nazevVrcholu, dataVrcholu, false, false);
+            PridejVrchol(nazevVrcholu, dataVrcholu, false);
         }
 
         public void PridejHranu(string nazevVrcholuZ, string nazevVrcholuDo, DH dataHrany) {
@@ -108,25 +108,12 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
             }
         }
 
-        private Dictionary<string, Vrchol<DV, DH>> DejVstupniVrcholy()
-        {
-            Dictionary<string, Vrchol<DV, DH>> vstupniVrcholy = new Dictionary<string, Vrchol<DV, DH>>();
-            foreach (var vrcholNazev in Vrcholy)
-            {
-                string nazevVrcholu = vrcholNazev.Key;
-                Vrchol<DV, DH> vrchol = vrcholNazev.Value;
-                if (vrchol.JeVstupni)
-                {
-                    vstupniVrcholy[nazevVrcholu] = vrchol;
-                }
-            }
-            return vstupniVrcholy;
-        }
-
         //seznam hran
         private class Hrana<DV, DH>
         {
+            [JsonProperty]
             public Vrchol<DV, DH> CilovyVrchol { get; set; }
+            [JsonProperty]
             public DH Data { get; set; }
 
             public Hrana()
@@ -143,10 +130,13 @@ namespace DatoveStrukutrySemPraceA.Entity.Graf
 
         private class Vrchol<DV, DH>
         {
+            [JsonProperty]
             public List<Hrana<DV, DH>> VychazejiciHrany { get; set; } = new List<Hrana<DV, DH>>();
+            [JsonProperty]
             public DV Data { get; set; }
+            [JsonProperty]
             public bool JeVstupni {  get; set; }
-            public bool JeKoncovy { get; set; }
+            [JsonProperty]
             public string Nazev {  get; set; }
 
             public Vrchol()

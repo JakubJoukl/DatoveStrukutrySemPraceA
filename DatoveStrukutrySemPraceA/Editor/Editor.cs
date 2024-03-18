@@ -2,6 +2,7 @@
 using DatoveStrukutrySemPraceA.Entity.ZeleznicniDoprava;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,19 +86,19 @@ namespace DatoveStrukutrySemPraceA.Editor
 
             if (ZvolenyTypPrvku == TYP_PRVKU.VSTUPNI)
             {
-                GrafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = false, Pocatecni = true, X = souradniceX, Y = souradniceY }, true, false);
+                GrafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = false, Pocatecni = true, X = souradniceX, Y = souradniceY }, true);
             }
             else if (ZvolenyTypPrvku == TYP_PRVKU.PRUJEZDOVY)
             {
-                GrafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = false, Pocatecni = false, X = souradniceX, Y = souradniceY }, false, false);
+                GrafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = false, Pocatecni = false, X = souradniceX, Y = souradniceY }, false);
             }
             else if (ZvolenyTypPrvku == TYP_PRVKU.VYSTUPNI)
             {
-                GrafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = true, Pocatecni = false, X = souradniceX, Y = souradniceY }, false, true);
+                GrafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = true, Pocatecni = false, X = souradniceX, Y = souradniceY }, false);
             }
             else if (ZvolenyTypPrvku == TYP_PRVKU.VSTUPNI_VYSTUPNI) 
             {
-                GrafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = true, Pocatecni = true, X = souradniceX, Y = souradniceY }, true, true);
+                GrafStanic.PridejVrchol(nazevVrcholu, new Stanice { Koncova = true, Pocatecni = true, X = souradniceX, Y = souradniceY }, true);
             }
             else
             {
@@ -238,6 +239,45 @@ namespace DatoveStrukutrySemPraceA.Editor
             {
                 VybranyVrchol = null;
                 NajetyVrchol = null;
+            }
+        }
+
+        public void UlozTextDoSouboru(string ukladanyText)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "TXT soubory (*.txt)|*.txt";
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                // First Event Creates file and writes default content to it - works ok 
+                File.WriteAllText(saveFileDialog.FileName, ukladanyText);
+                //NewFileCreated(this, new FileCreatedEventArgs() { Template = Template.BBMF, FilePath = saveFileDialog.FileName });
+            }
+        }
+
+        public bool NactiGrafZeSouboru() {
+            OpenFileDialog openFileDialog = new OpenFileDialog(); 
+            openFileDialog.Filter = "BIN soubory (*.bin)|*.bin";
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.GrafStanic = Persistence.Perzistence<Stanice, Koleje>.NactiGrafZeSouboru(openFileDialog.FileName);
+                return true;
+            }
+            return false;
+        }
+
+        public void UlozGrafDoSouboru()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "BIN soubory (*.bin)|*.bin";
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Persistence.Perzistence<Stanice, Koleje>.UlozGrafDoSouboru(saveFileDialog.FileName, this.GrafStanic);
             }
         }
 
