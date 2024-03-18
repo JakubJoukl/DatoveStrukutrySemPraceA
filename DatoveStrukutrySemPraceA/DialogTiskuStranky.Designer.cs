@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.velikostCb = new System.Windows.Forms.ComboBox();
@@ -36,42 +35,42 @@
             this.naSirku = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.vlevoTxt = new System.Windows.Forms.TextBox();
-            this.nahoreTxt = new System.Windows.Forms.TextBox();
-            this.doleTxt = new System.Windows.Forms.TextBox();
-            this.vpravoTxt = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.celouSit = new System.Windows.Forms.RadioButton();
             this.viditelnouCast = new System.Windows.Forms.RadioButton();
+            this.celouSit = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.roztahnoutBtn = new System.Windows.Forms.RadioButton();
+            this.zachovatBtn = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.DleVrcholu = new System.Windows.Forms.RadioButton();
             this.DleKamery = new System.Windows.Forms.RadioButton();
+            this.DleVrcholu = new System.Windows.Forms.RadioButton();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.textVZahlavi = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.textVZapatiTxt = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.TextVZapati = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textVZahlaviTxt = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.posterovyTisk = new System.Windows.Forms.CheckBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.vyskaPocetStranTxt = new System.Windows.Forms.TextBox();
-            this.sirkaPocetStranTxt = new System.Windows.Forms.TextBox();
-            this.meritkoTxt = new System.Windows.Forms.TextBox();
             this.meritkem = new System.Windows.Forms.RadioButton();
+            this.label12 = new System.Windows.Forms.Label();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.poctemStran = new System.Windows.Forms.RadioButton();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.posterovyTisk = new System.Windows.Forms.CheckBox();
             this.zrusBtn = new System.Windows.Forms.Button();
             this.PotvrdBtn = new System.Windows.Forms.Button();
+            this.pocetStranekNaVysku = new System.Windows.Forms.NumericUpDown();
+            this.pocetStranekNaSirku = new System.Windows.Forms.NumericUpDown();
+            this.vlevoNm = new System.Windows.Forms.NumericUpDown();
+            this.nahoreNm = new System.Windows.Forms.NumericUpDown();
+            this.vpravoNm = new System.Windows.Forms.NumericUpDown();
+            this.doleNm = new System.Windows.Forms.NumericUpDown();
+            this.meritkoNm = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -79,23 +78,21 @@
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaVysku)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaSirku)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vlevoNm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nahoreNm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vpravoNm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doleNm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.meritkoNm)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Papír";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 40);
+            this.label2.Location = new System.Drawing.Point(6, 28);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(44, 13);
             this.label2.TabIndex = 1;
@@ -104,7 +101,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 67);
+            this.label3.Location = new System.Drawing.Point(6, 51);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 13);
             this.label3.TabIndex = 2;
@@ -113,48 +110,55 @@
             // velikostCb
             // 
             this.velikostCb.FormattingEnabled = true;
-            this.velikostCb.Location = new System.Drawing.Point(72, 37);
+            this.velikostCb.Location = new System.Drawing.Point(65, 25);
             this.velikostCb.Name = "velikostCb";
-            this.velikostCb.Size = new System.Drawing.Size(194, 21);
+            this.velikostCb.Size = new System.Drawing.Size(189, 21);
             this.velikostCb.TabIndex = 5;
+            this.velikostCb.SelectedIndexChanged += new System.EventHandler(this.velikostCb_SelectedIndexChanged);
             // 
             // naVysku
             // 
             this.naVysku.AutoSize = true;
-            this.naVysku.Location = new System.Drawing.Point(6, 10);
+            this.naVysku.Location = new System.Drawing.Point(65, 49);
             this.naVysku.Name = "naVysku";
             this.naVysku.Size = new System.Drawing.Size(70, 17);
             this.naVysku.TabIndex = 8;
             this.naVysku.Text = "Na výšku";
             this.naVysku.UseVisualStyleBackColor = true;
+            this.naVysku.CheckedChanged += new System.EventHandler(this.naVysku_CheckedChanged);
             // 
             // naSirku
             // 
             this.naSirku.AutoSize = true;
-            this.naSirku.Location = new System.Drawing.Point(121, 9);
+            this.naSirku.Location = new System.Drawing.Point(187, 49);
             this.naSirku.Name = "naSirku";
             this.naSirku.Size = new System.Drawing.Size(67, 17);
             this.naSirku.TabIndex = 9;
             this.naSirku.TabStop = true;
             this.naSirku.Text = "Na šířku";
             this.naSirku.UseVisualStyleBackColor = true;
+            this.naSirku.CheckedChanged += new System.EventHandler(this.naSirku_CheckedChanged);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.naVysku);
             this.groupBox1.Controls.Add(this.naSirku);
-            this.groupBox1.Location = new System.Drawing.Point(72, 56);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.velikostCb);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(194, 29);
+            this.groupBox1.Size = new System.Drawing.Size(264, 73);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Papír";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.vpravoTxt);
-            this.groupBox2.Controls.Add(this.doleTxt);
-            this.groupBox2.Controls.Add(this.nahoreTxt);
-            this.groupBox2.Controls.Add(this.vlevoTxt);
+            this.groupBox2.Controls.Add(this.doleNm);
+            this.groupBox2.Controls.Add(this.vpravoNm);
+            this.groupBox2.Controls.Add(this.nahoreNm);
+            this.groupBox2.Controls.Add(this.vlevoNm);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label6);
@@ -166,23 +170,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Okraje (mm)";
             // 
-            // label5
+            // label8
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(37, 13);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Vlevo:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 52);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Nahoře:";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(130, 52);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Dole:";
             // 
             // label7
             // 
@@ -193,42 +188,23 @@
             this.label7.TabIndex = 2;
             this.label7.Text = "Vpravo:";
             // 
-            // label8
+            // label6
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(130, 52);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(32, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Dole:";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 52);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Nahoře:";
             // 
-            // vlevoTxt
+            // label5
             // 
-            this.vlevoTxt.Location = new System.Drawing.Point(53, 22);
-            this.vlevoTxt.Name = "vlevoTxt";
-            this.vlevoTxt.Size = new System.Drawing.Size(71, 20);
-            this.vlevoTxt.TabIndex = 4;
-            // 
-            // nahoreTxt
-            // 
-            this.nahoreTxt.Location = new System.Drawing.Point(53, 49);
-            this.nahoreTxt.Name = "nahoreTxt";
-            this.nahoreTxt.Size = new System.Drawing.Size(71, 20);
-            this.nahoreTxt.TabIndex = 5;
-            // 
-            // doleTxt
-            // 
-            this.doleTxt.Location = new System.Drawing.Point(174, 49);
-            this.doleTxt.Name = "doleTxt";
-            this.doleTxt.Size = new System.Drawing.Size(71, 20);
-            this.doleTxt.TabIndex = 12;
-            // 
-            // vpravoTxt
-            // 
-            this.vpravoTxt.Location = new System.Drawing.Point(174, 22);
-            this.vpravoTxt.Name = "vpravoTxt";
-            this.vpravoTxt.Size = new System.Drawing.Size(71, 20);
-            this.vpravoTxt.TabIndex = 13;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(37, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Vlevo:";
             // 
             // groupBox3
             // 
@@ -241,17 +217,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Tisknout";
             // 
-            // celouSit
-            // 
-            this.celouSit.AutoSize = true;
-            this.celouSit.Location = new System.Drawing.Point(8, 20);
-            this.celouSit.Name = "celouSit";
-            this.celouSit.Size = new System.Drawing.Size(68, 17);
-            this.celouSit.TabIndex = 0;
-            this.celouSit.TabStop = true;
-            this.celouSit.Text = "Celou síť";
-            this.celouSit.UseVisualStyleBackColor = true;
-            // 
             // viditelnouCast
             // 
             this.viditelnouCast.AutoSize = true;
@@ -263,10 +228,21 @@
             this.viditelnouCast.Text = "Viditelnou část";
             this.viditelnouCast.UseVisualStyleBackColor = true;
             // 
+            // celouSit
+            // 
+            this.celouSit.AutoSize = true;
+            this.celouSit.Location = new System.Drawing.Point(8, 20);
+            this.celouSit.Name = "celouSit";
+            this.celouSit.Size = new System.Drawing.Size(68, 17);
+            this.celouSit.TabIndex = 0;
+            this.celouSit.TabStop = true;
+            this.celouSit.Text = "Celou síť";
+            this.celouSit.UseVisualStyleBackColor = true;
+            // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.radioButton4);
-            this.groupBox4.Controls.Add(this.radioButton3);
+            this.groupBox4.Controls.Add(this.roztahnoutBtn);
+            this.groupBox4.Controls.Add(this.zachovatBtn);
             this.groupBox4.Location = new System.Drawing.Point(13, 239);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(253, 44);
@@ -274,27 +250,27 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Poměr stran";
             // 
-            // radioButton3
+            // roztahnoutBtn
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(6, 19);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(71, 17);
-            this.radioButton3.TabIndex = 0;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Zachovat";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.roztahnoutBtn.AutoSize = true;
+            this.roztahnoutBtn.Location = new System.Drawing.Point(85, 19);
+            this.roztahnoutBtn.Name = "roztahnoutBtn";
+            this.roztahnoutBtn.Size = new System.Drawing.Size(162, 17);
+            this.roztahnoutBtn.TabIndex = 1;
+            this.roztahnoutBtn.TabStop = true;
+            this.roztahnoutBtn.Text = "Roztáhnout na celou stránku";
+            this.roztahnoutBtn.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // zachovatBtn
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(85, 19);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(162, 17);
-            this.radioButton4.TabIndex = 1;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Roztáhnout na celou stránku";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.zachovatBtn.AutoSize = true;
+            this.zachovatBtn.Location = new System.Drawing.Point(6, 19);
+            this.zachovatBtn.Name = "zachovatBtn";
+            this.zachovatBtn.Size = new System.Drawing.Size(71, 17);
+            this.zachovatBtn.TabIndex = 0;
+            this.zachovatBtn.TabStop = true;
+            this.zachovatBtn.Text = "Zachovat";
+            this.zachovatBtn.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -307,17 +283,6 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Centrování";
             // 
-            // DleVrcholu
-            // 
-            this.DleVrcholu.AutoSize = true;
-            this.DleVrcholu.Location = new System.Drawing.Point(5, 19);
-            this.DleVrcholu.Name = "DleVrcholu";
-            this.DleVrcholu.Size = new System.Drawing.Size(79, 17);
-            this.DleVrcholu.TabIndex = 0;
-            this.DleVrcholu.TabStop = true;
-            this.DleVrcholu.Text = "Dle vrcholů";
-            this.DleVrcholu.UseVisualStyleBackColor = true;
-            // 
             // DleKamery
             // 
             this.DleKamery.AutoSize = true;
@@ -329,12 +294,23 @@
             this.DleKamery.Text = "Dle kamery";
             this.DleKamery.UseVisualStyleBackColor = true;
             // 
+            // DleVrcholu
+            // 
+            this.DleVrcholu.AutoSize = true;
+            this.DleVrcholu.Location = new System.Drawing.Point(5, 19);
+            this.DleVrcholu.Name = "DleVrcholu";
+            this.DleVrcholu.Size = new System.Drawing.Size(79, 17);
+            this.DleVrcholu.TabIndex = 0;
+            this.DleVrcholu.TabStop = true;
+            this.DleVrcholu.Text = "Dle vrcholů";
+            this.DleVrcholu.UseVisualStyleBackColor = true;
+            // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.TextVZapati);
+            this.groupBox6.Controls.Add(this.textVZapatiTxt);
             this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Controls.Add(this.label4);
-            this.groupBox6.Controls.Add(this.textVZahlavi);
+            this.groupBox6.Controls.Add(this.textVZahlaviTxt);
             this.groupBox6.Location = new System.Drawing.Point(16, 342);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(250, 110);
@@ -343,21 +319,12 @@
             this.groupBox6.Text = " Text na stránce";
             this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
             // 
-            // textVZahlavi
+            // textVZapatiTxt
             // 
-            this.textVZahlavi.Location = new System.Drawing.Point(6, 35);
-            this.textVZahlavi.Name = "textVZahlavi";
-            this.textVZahlavi.Size = new System.Drawing.Size(236, 20);
-            this.textVZahlavi.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(78, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Text v záhlaví:";
+            this.textVZapatiTxt.Location = new System.Drawing.Point(6, 78);
+            this.textVZapatiTxt.Name = "textVZapatiTxt";
+            this.textVZapatiTxt.Size = new System.Drawing.Size(236, 20);
+            this.textVZapatiTxt.TabIndex = 3;
             // 
             // label9
             // 
@@ -368,12 +335,21 @@
             this.label9.TabIndex = 2;
             this.label9.Text = "Text v zápatí:";
             // 
-            // TextVZapati
+            // label4
             // 
-            this.TextVZapati.Location = new System.Drawing.Point(6, 78);
-            this.TextVZapati.Name = "TextVZapati";
-            this.TextVZapati.Size = new System.Drawing.Size(236, 20);
-            this.TextVZapati.TabIndex = 3;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(78, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Text v záhlaví:";
+            // 
+            // textVZahlaviTxt
+            // 
+            this.textVZahlaviTxt.Location = new System.Drawing.Point(6, 35);
+            this.textVZahlaviTxt.Name = "textVZahlaviTxt";
+            this.textVZahlaviTxt.Size = new System.Drawing.Size(236, 20);
+            this.textVZahlaviTxt.TabIndex = 0;
             // 
             // groupBox7
             // 
@@ -387,33 +363,10 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Posterový tisk";
             // 
-            // posterovyTisk
-            // 
-            this.posterovyTisk.AutoSize = true;
-            this.posterovyTisk.Location = new System.Drawing.Point(82, 0);
-            this.posterovyTisk.Name = "posterovyTisk";
-            this.posterovyTisk.Size = new System.Drawing.Size(15, 14);
-            this.posterovyTisk.TabIndex = 0;
-            this.posterovyTisk.UseVisualStyleBackColor = true;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.poctemStran);
-            this.groupBox8.Controls.Add(this.sirkaPocetStranTxt);
-            this.groupBox8.Controls.Add(this.vyskaPocetStranTxt);
-            this.groupBox8.Controls.Add(this.label11);
-            this.groupBox8.Controls.Add(this.label10);
-            this.groupBox8.Location = new System.Drawing.Point(6, 19);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(238, 43);
-            this.groupBox8.TabIndex = 1;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Počtem stran";
-            // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.meritkoNm);
             this.groupBox9.Controls.Add(this.meritkem);
-            this.groupBox9.Controls.Add(this.meritkoTxt);
             this.groupBox9.Controls.Add(this.label12);
             this.groupBox9.Location = new System.Drawing.Point(6, 68);
             this.groupBox9.Name = "groupBox9";
@@ -421,54 +374,6 @@
             this.groupBox9.TabIndex = 2;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Měřítkem";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 20);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(55, 13);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Na výšku:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(123, 20);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(52, 13);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "Na šířku:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 20);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(65, 13);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "Měřítko (%):";
-            // 
-            // vyskaPocetStranTxt
-            // 
-            this.vyskaPocetStranTxt.Location = new System.Drawing.Point(64, 17);
-            this.vyskaPocetStranTxt.Name = "vyskaPocetStranTxt";
-            this.vyskaPocetStranTxt.Size = new System.Drawing.Size(53, 20);
-            this.vyskaPocetStranTxt.TabIndex = 3;
-            // 
-            // sirkaPocetStranTxt
-            // 
-            this.sirkaPocetStranTxt.Location = new System.Drawing.Point(181, 17);
-            this.sirkaPocetStranTxt.Name = "sirkaPocetStranTxt";
-            this.sirkaPocetStranTxt.Size = new System.Drawing.Size(53, 20);
-            this.sirkaPocetStranTxt.TabIndex = 4;
-            // 
-            // meritkoTxt
-            // 
-            this.meritkoTxt.Location = new System.Drawing.Point(77, 17);
-            this.meritkoTxt.Name = "meritkoTxt";
-            this.meritkoTxt.Size = new System.Drawing.Size(155, 20);
-            this.meritkoTxt.TabIndex = 5;
             // 
             // meritkem
             // 
@@ -481,6 +386,29 @@
             this.meritkem.UseVisualStyleBackColor = true;
             this.meritkem.Click += new System.EventHandler(this.meritkem_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 20);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(65, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Měřítko (%):";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.pocetStranekNaSirku);
+            this.groupBox8.Controls.Add(this.pocetStranekNaVysku);
+            this.groupBox8.Controls.Add(this.poctemStran);
+            this.groupBox8.Controls.Add(this.label11);
+            this.groupBox8.Controls.Add(this.label10);
+            this.groupBox8.Location = new System.Drawing.Point(6, 19);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(238, 43);
+            this.groupBox8.TabIndex = 1;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Počtem stran";
+            // 
             // poctemStran
             // 
             this.poctemStran.AutoSize = true;
@@ -492,6 +420,33 @@
             this.poctemStran.UseVisualStyleBackColor = true;
             this.poctemStran.Click += new System.EventHandler(this.poctemStran_Click);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(123, 20);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(52, 13);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Na šířku:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 20);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Na výšku:";
+            // 
+            // posterovyTisk
+            // 
+            this.posterovyTisk.AutoSize = true;
+            this.posterovyTisk.Location = new System.Drawing.Point(82, 0);
+            this.posterovyTisk.Name = "posterovyTisk";
+            this.posterovyTisk.Size = new System.Drawing.Size(15, 14);
+            this.posterovyTisk.TabIndex = 0;
+            this.posterovyTisk.UseVisualStyleBackColor = true;
+            // 
             // zrusBtn
             // 
             this.zrusBtn.Location = new System.Drawing.Point(16, 591);
@@ -500,6 +455,7 @@
             this.zrusBtn.TabIndex = 17;
             this.zrusBtn.Text = "Zrušit";
             this.zrusBtn.UseVisualStyleBackColor = true;
+            this.zrusBtn.Click += new System.EventHandler(this.zrusBtn_Click);
             // 
             // PotvrdBtn
             // 
@@ -509,6 +465,76 @@
             this.PotvrdBtn.TabIndex = 18;
             this.PotvrdBtn.Text = "Potvrdit";
             this.PotvrdBtn.UseVisualStyleBackColor = true;
+            this.PotvrdBtn.Click += new System.EventHandler(this.PotvrdBtn_Click);
+            // 
+            // pocetStranekNaVysku
+            // 
+            this.pocetStranekNaVysku.Location = new System.Drawing.Point(67, 17);
+            this.pocetStranekNaVysku.Name = "pocetStranekNaVysku";
+            this.pocetStranekNaVysku.Size = new System.Drawing.Size(51, 20);
+            this.pocetStranekNaVysku.TabIndex = 5;
+            // 
+            // pocetStranekNaSirku
+            // 
+            this.pocetStranekNaSirku.Location = new System.Drawing.Point(177, 17);
+            this.pocetStranekNaSirku.Name = "pocetStranekNaSirku";
+            this.pocetStranekNaSirku.Size = new System.Drawing.Size(51, 20);
+            this.pocetStranekNaSirku.TabIndex = 6;
+            // 
+            // vlevoNm
+            // 
+            this.vlevoNm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.vlevoNm.Location = new System.Drawing.Point(50, 23);
+            this.vlevoNm.Name = "vlevoNm";
+            this.vlevoNm.Size = new System.Drawing.Size(74, 20);
+            this.vlevoNm.TabIndex = 6;
+            // 
+            // nahoreNm
+            // 
+            this.nahoreNm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nahoreNm.Location = new System.Drawing.Point(50, 49);
+            this.nahoreNm.Name = "nahoreNm";
+            this.nahoreNm.Size = new System.Drawing.Size(74, 20);
+            this.nahoreNm.TabIndex = 7;
+            // 
+            // vpravoNm
+            // 
+            this.vpravoNm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.vpravoNm.Location = new System.Drawing.Point(179, 23);
+            this.vpravoNm.Name = "vpravoNm";
+            this.vpravoNm.Size = new System.Drawing.Size(74, 20);
+            this.vpravoNm.TabIndex = 8;
+            // 
+            // doleNm
+            // 
+            this.doleNm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.doleNm.Location = new System.Drawing.Point(179, 49);
+            this.doleNm.Name = "doleNm";
+            this.doleNm.Size = new System.Drawing.Size(74, 20);
+            this.doleNm.TabIndex = 9;
+            // 
+            // meritkoNm
+            // 
+            this.meritkoNm.Location = new System.Drawing.Point(76, 18);
+            this.meritkoNm.Name = "meritkoNm";
+            this.meritkoNm.Size = new System.Drawing.Size(152, 20);
+            this.meritkoNm.TabIndex = 5;
             // 
             // DialogTiskuStranky
             // 
@@ -523,13 +549,9 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.velikostCb);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Name = "DialogTiskuStranky";
-            this.Text = "DialogTiskuStranky";
+            this.Text = "Dialog tisku stranky";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -544,18 +566,22 @@
             this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaVysku)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaSirku)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vlevoNm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nahoreNm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vpravoNm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doleNm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.meritkoNm)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox velikostCb;
@@ -563,10 +589,6 @@
         private System.Windows.Forms.RadioButton naSirku;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox vpravoTxt;
-        private System.Windows.Forms.TextBox doleTxt;
-        private System.Windows.Forms.TextBox nahoreTxt;
-        private System.Windows.Forms.TextBox vlevoTxt;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
@@ -575,15 +597,15 @@
         private System.Windows.Forms.RadioButton viditelnouCast;
         private System.Windows.Forms.RadioButton celouSit;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton roztahnoutBtn;
+        private System.Windows.Forms.RadioButton zachovatBtn;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.RadioButton DleKamery;
         private System.Windows.Forms.RadioButton DleVrcholu;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textVZahlavi;
-        private System.Windows.Forms.TextBox TextVZapati;
+        private System.Windows.Forms.TextBox textVZahlaviTxt;
+        private System.Windows.Forms.TextBox textVZapatiTxt;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox groupBox8;
@@ -592,12 +614,16 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox meritkoTxt;
-        private System.Windows.Forms.TextBox sirkaPocetStranTxt;
-        private System.Windows.Forms.TextBox vyskaPocetStranTxt;
         private System.Windows.Forms.RadioButton meritkem;
         private System.Windows.Forms.RadioButton poctemStran;
         private System.Windows.Forms.Button zrusBtn;
         private System.Windows.Forms.Button PotvrdBtn;
+        private System.Windows.Forms.NumericUpDown doleNm;
+        private System.Windows.Forms.NumericUpDown vpravoNm;
+        private System.Windows.Forms.NumericUpDown nahoreNm;
+        private System.Windows.Forms.NumericUpDown vlevoNm;
+        private System.Windows.Forms.NumericUpDown pocetStranekNaSirku;
+        private System.Windows.Forms.NumericUpDown pocetStranekNaVysku;
+        private System.Windows.Forms.NumericUpDown meritkoNm;
     }
 }

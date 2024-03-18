@@ -264,9 +264,22 @@ namespace DatoveStrukutrySemPraceA.Editor
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 this.GrafStanic = Persistence.Perzistence<Stanice, Koleje>.NactiGrafZeSouboru(openFileDialog.FileName);
+                this.CisloNovehoVrcholu = DejCisloNejvyssihoVrcholu();
                 return true;
             }
             return false;
+        }
+
+        private int DejCisloNejvyssihoVrcholu() {
+            int nalezeneNejvyssiCislo = 0;
+            foreach (var vrchol in GrafStanic.dejSeznamVrcholu())
+            {
+                int cisloVrcholu = int.Parse(vrchol.Substring(1));
+                if (cisloVrcholu > nalezeneNejvyssiCislo) {
+                    nalezeneNejvyssiCislo = cisloVrcholu;
+                }
+            }
+            return nalezeneNejvyssiCislo + 1;
         }
 
         public void UlozGrafDoSouboru()

@@ -48,12 +48,12 @@ namespace DatoveStrukutrySemPraceA
             this.exportGraf = new System.Windows.Forms.Button();
             this.importGraf = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.printDialog = new System.Windows.Forms.PrintDialog();
             this.sToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tiskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.náhledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vzhledStránkyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seznamTiskarenComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.printDialog = new System.Windows.Forms.PrintDialog();
             this.pageSetupDialog = new System.Windows.Forms.PageSetupDialog();
             this.printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
             this.ovladaciMenu.SuspendLayout();
@@ -236,7 +236,7 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.exportGraf.Location = new System.Drawing.Point(286, 6);
             this.exportGraf.Name = "exportGraf";
-            this.exportGraf.Size = new System.Drawing.Size(75, 23);
+            this.exportGraf.Size = new System.Drawing.Size(75, 25);
             this.exportGraf.TabIndex = 2;
             this.exportGraf.Text = "Exportuj graf";
             this.exportGraf.UseVisualStyleBackColor = true;
@@ -246,7 +246,7 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.importGraf.Location = new System.Drawing.Point(367, 6);
             this.importGraf.Name = "importGraf";
-            this.importGraf.Size = new System.Drawing.Size(75, 23);
+            this.importGraf.Size = new System.Drawing.Size(81, 25);
             this.importGraf.TabIndex = 3;
             this.importGraf.Text = "Importuj graf";
             this.importGraf.UseVisualStyleBackColor = true;
@@ -263,10 +263,6 @@ namespace DatoveStrukutrySemPraceA
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // printDialog
-            // 
-            this.printDialog.UseEXDialog = true;
-            // 
             // sToolStripMenuItem
             // 
             this.sToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -281,21 +277,21 @@ namespace DatoveStrukutrySemPraceA
             // tiskToolStripMenuItem
             // 
             this.tiskToolStripMenuItem.Name = "tiskToolStripMenuItem";
-            this.tiskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tiskToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.tiskToolStripMenuItem.Text = "Tisk...";
             this.tiskToolStripMenuItem.Click += new System.EventHandler(this.tiskToolStripMenuItem_Click);
             // 
             // náhledToolStripMenuItem
             // 
             this.náhledToolStripMenuItem.Name = "náhledToolStripMenuItem";
-            this.náhledToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.náhledToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.náhledToolStripMenuItem.Text = "Náhled";
             this.náhledToolStripMenuItem.Click += new System.EventHandler(this.náhledToolStripMenuItem_Click);
             // 
             // vzhledStránkyToolStripMenuItem
             // 
             this.vzhledStránkyToolStripMenuItem.Name = "vzhledStránkyToolStripMenuItem";
-            this.vzhledStránkyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vzhledStránkyToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.vzhledStránkyToolStripMenuItem.Text = "Vzhled stránky...";
             this.vzhledStránkyToolStripMenuItem.Click += new System.EventHandler(this.vzhledStránkyToolStripMenuItem_Click);
             // 
@@ -303,6 +299,10 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.seznamTiskarenComboBox.Name = "seznamTiskarenComboBox";
             this.seznamTiskarenComboBox.Size = new System.Drawing.Size(121, 23);
+            // 
+            // printDialog
+            // 
+            this.printDialog.UseEXDialog = true;
             // 
             // printPreviewDialog
             // 

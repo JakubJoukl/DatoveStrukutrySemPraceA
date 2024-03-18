@@ -84,6 +84,7 @@
       <DependentUpon>DialogTiskuStranky.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor\Editor.cs" />
+    <Compile Include="Editor\VlastniVlastnostiTisku.cs" />
     <Compile Include="Entity\Graf\Graf.cs" />
     <Compile Include="Entity\Graf\ListEqualityComparer.cs" />
     <Compile Include="Entity\ZeleznicniDoprava\Koleje.cs" />

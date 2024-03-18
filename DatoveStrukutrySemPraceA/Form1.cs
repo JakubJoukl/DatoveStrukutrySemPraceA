@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -25,6 +26,7 @@ namespace DatoveStrukutrySemPraceA
         int aktualniTistenaStranka = 1;
         int celkovyPocetStranDokumentu = 2;
         int zbyvajiciPocetStranTisku;
+        VlastniVlastnostiTisku vlastniVlastnosti = new VlastniVlastnostiTisku();
 
         public Form1()
         {
@@ -860,8 +862,37 @@ namespace DatoveStrukutrySemPraceA
         private void vzhledStránkyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogTiskuStranky dialogTiskuStranky = new DialogTiskuStranky();
-            dialogTiskuStranky.ShowDialog();
-            //pageSetupDialog.ShowDialog();
+            if (dialogTiskuStranky.ShowDialog() == DialogResult.OK) {
+                PageSettings vlastnostiTisku = printDocument.DefaultPageSettings;
+                PrinterSettings nastaveniTiskarny = vlastnostiTisku.PrinterSettings;
+                PaperKind zvolenyDruhPapiru = dialogTiskuStranky.VelikostStranky();
+
+                foreach (PaperSize vybranyFormat in nastaveniTiskarny.PaperSizes)
+                {
+                    if (vybranyFormat.Kind.Equals(zvolenyDruhPapiru))
+                    {
+                        vlastnostiTisku.PaperSize = vybranyFormat;
+                        break;
+                    }
+                }
+
+                Okraje okraje = dialogTiskuStranky.Okraje();
+                vlastnostiTisku.Landscape = dialogTiskuStranky.Orientace() == Orientace.NA_SIRKU;
+                vlastnostiTisku.Margins = new Margins(okraje.Vlevo, okraje.Nahore, okraje.Vpravo, okraje.Dole);
+                vlastniVlastnosti = new VlastniVlastnostiTisku();
+                vlastniVlastnosti.Tisknout = dialogTiskuStranky.Tisknout();
+                vlastniVlastnosti.PomerStran = dialogTiskuStranky.PomerStran();
+                vlastniVlastnosti.Centrovani = dialogTiskuStranky.Centrovani();
+                vlastniVlastnosti.TextVZahlavi = dialogTiskuStranky.TextVZahlavi();
+                vlastniVlastnosti.TextVZapati = dialogTiskuStranky.TextVZapati();
+                vlastniVlastnosti.PosterovyTisk = dialogTiskuStranky.PosterovyTisk();
+                vlastniVlastnosti.Okraje = dialogTiskuStranky.Okraje();
+                vlastniVlastnosti.Meritko = dialogTiskuStranky.Meritko();
+                vlastniVlastnosti.Centrovani = dialogTiskuStranky.Centrovani();
+                vlastniVlastnosti.PosterovyTisk = dialogTiskuStranky.PosterovyTisk();
+                vlastniVlastnosti.PocetStranNaSirku = dialogTiskuStranky.PocetStranPosterovehoTiskuNaSirku();
+                vlastniVlastnosti.PocetStranNaVysku = dialogTiskuStranky.PocetStranPosterovehoTiskuNaVysku();
+            }
         }
     }
 }
