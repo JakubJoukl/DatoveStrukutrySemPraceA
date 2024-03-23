@@ -2,11 +2,14 @@
 using DatoveStrukutrySemPraceA.Entity.ZeleznicniDoprava;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace DatoveStrukutrySemPraceA.Editor
 {
@@ -50,6 +53,14 @@ namespace DatoveStrukutrySemPraceA.Editor
 
         //vraci zda je nutne prekreslovat
         public bool Klik(MouseEventArgs mouseEventArgs) {
+
+            int souradniceX = (int)((mouseEventArgs.X - PosunKameryX) / Meritko);
+            int souradniceY = (int)((mouseEventArgs.Y - PosunKameryY) / Meritko);
+
+            if (mouseEventArgs.Button == MouseButtons.Right)
+            {
+                return SmazNejblizsiVrchol(new Point(souradniceX, souradniceY));
+            }
             if (ProvadenaAkce != TYP_AKCE.VYTVOR_VRCHOL && Control.ModifierKeys != Keys.Shift) return false;
             //MouseEventArgs mouseEventArgs = (MouseEventArgs)e;
             if (ZaznamenanKlikNaVrchol(mouseEventArgs)) return true;
@@ -65,6 +76,41 @@ namespace DatoveStrukutrySemPraceA.Editor
             }
         }
 
+        private bool SmazNejblizsiVrchol(Point nakliknutyBod) {
+            string uvodniStaniceHranyKeSmazani = null;
+            string cilovaStaniceHranyKeSmazani = null;
+            double nejmensiVzdalenost = double.MaxValue;
+
+            foreach (var vrcholNazev in GrafStanic.dejSeznamVrcholu())
+            {
+                List<string> nasledniciVrcholu = GrafStanic.DejNaslednikyVrcholu(vrcholNazev);
+                Stanice staniceZ = GrafStanic.DejDataVrcholu(vrcholNazev);
+
+                foreach (var naslednikVrcholu in nasledniciVrcholu)
+                {
+                    Stanice staniceDo = GrafStanic.DejDataVrcholu(naslednikVrcholu);
+                    //List<Point> ciloveBody = DejStartovniAKonecnouPoziciCar(staniceZ.X, staniceZ.Y, staniceDo.X, staniceDo.Y);
+                    Point nejblizsiBod = getClosestPointOnSegment(staniceZ.X, staniceZ.Y, staniceDo.X, staniceDo.Y, nakliknutyBod.X, nakliknutyBod.Y);
+                    // distanc can be calculated as follows
+                    int distX = nakliknutyBod.X - nejblizsiBod.X;
+                    int distY = nakliknutyBod.Y - nejblizsiBod.Y;
+
+                    double result = Math.Sqrt(distX * distX + distY * distY);
+
+                    if (result < nejmensiVzdalenost) {
+                        uvodniStaniceHranyKeSmazani = vrcholNazev;
+                        cilovaStaniceHranyKeSmazani = naslednikVrcholu;
+                        nejmensiVzdalenost = result;
+                    }
+                }
+            }
+
+            if (uvodniStaniceHranyKeSmazani != null && cilovaStaniceHranyKeSmazani != null) {
+                return GrafStanic.OdeberHranu(uvodniStaniceHranyKeSmazani, cilovaStaniceHranyKeSmazani);
+            }
+            return false;
+        }
+
         public bool ZaznamenanKlikNaVrchol(MouseEventArgs mouseEventArgs) {
             string nazevVrcholu = DejNazevNaklikleCtvercoveVzdalenostiVrcholu(mouseEventArgs);
             if (nazevVrcholu != null)
@@ -74,6 +120,60 @@ namespace DatoveStrukutrySemPraceA.Editor
             else {
                 return false;
             }
+        }
+
+        public List<Point> DejStartovniAKonecnouPoziciCar(int x1, int y1, int x2, int y2)
+        {
+            int startX;
+            int startY;
+            int cilX;
+            int cilY;
+
+            if (Math.Abs(x1 - x2) < Sirka)
+            {
+                if (y1 < y2)
+                {
+                    //startY = y1 + editor.Sirka / 2;
+                    cilY = y2 - Sirka / 2;
+                }
+                else
+                {
+                    //startY = y1 - editor.Sirka / 2;
+                    cilY = y2 + Sirka / 2;
+                }
+                cilX = x2;
+            }
+            else
+            {
+                if (x1 < x2)
+                {
+                    //startX = x1 + editor.Sirka / 2;
+                    cilX = x2 - Sirka / 2;
+                }
+                else
+                {
+                    //startX = x1 - editor.Sirka / 2;
+                    cilX = x2 + Sirka / 2;
+                }
+                cilY = y2;
+            }
+
+            /*
+            if (y1 < y2)
+            {
+                startY = y1 + editor.Sirka / 2;
+                cilY = y2 - editor.Sirka / 2;
+            }
+            else {
+                startY = y1 - editor.Sirka / 2;
+                cilY = y2 + editor.Sirka / 2;
+            }*/
+
+            return new List<Point>()
+            {
+                new Point(x1, y1),
+                new Point(cilX, cilY)
+            };
         }
 
         private bool VytvorVrchol(MouseEventArgs mouseEventArgs)
@@ -292,6 +392,45 @@ namespace DatoveStrukutrySemPraceA.Editor
             {
                 Persistence.Perzistence<Stanice, Koleje>.UlozGrafDoSouboru(saveFileDialog.FileName, this.GrafStanic);
             }
+        }
+
+
+        /**
+         * Returns closest point on segment to point
+         * @param sx1 - segment x coord 1
+         * @param sy1 - segment y coord 1
+         * @param sx2 - segment x coord 2
+         * @param sy2 - segment y coord 2
+         * @param px - point x coord
+         * @param py - point y coord
+         * @return closets point on segment to point
+         */
+        public static Point getClosestPointOnSegment(int sx1, int sy1, int sx2, int sy2, int px, int py)
+        {
+            double xDelta = sx2 - sx1;
+            double yDelta = sy2 - sy1;
+
+            if ((xDelta == 0) && (yDelta == 0))
+            {
+                throw new Exception("Segment start equals segment end");
+            }
+
+            double u = ((px - sx1) * xDelta + (py - sy1) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
+
+            Point closestPoint;
+            if (u < 0)
+            {
+                closestPoint = new Point(sx1, sy1);
+            }
+            else if (u > 1)
+            {
+                closestPoint = new Point(sx2, sy2);
+            }
+            else
+            {
+                closestPoint = new Point((int)Math.Round(sx1 + u * xDelta), (int)Math.Round(sy1 + u * yDelta));
+            }
+            return closestPoint;
         }
 
         public enum TYP_PRVKU

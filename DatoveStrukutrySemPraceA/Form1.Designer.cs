@@ -40,7 +40,6 @@ namespace DatoveStrukutrySemPraceA
             this.button1 = new System.Windows.Forms.Button();
             this.seznamL = new System.Windows.Forms.Button();
             this.seznamR = new System.Windows.Forms.Button();
-            this.vystupSeznamu = new System.Windows.Forms.TextBox();
             this.canvas = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.exportSeznamLDoSouboru = new System.Windows.Forms.Button();
@@ -56,6 +55,7 @@ namespace DatoveStrukutrySemPraceA
             this.printDialog = new System.Windows.Forms.PrintDialog();
             this.pageSetupDialog = new System.Windows.Forms.PageSetupDialog();
             this.printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this.vystupList = new System.Windows.Forms.ListBox();
             this.ovladaciMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -74,13 +74,13 @@ namespace DatoveStrukutrySemPraceA
             this.ovladaciMenu.Controls.Add(this.button1);
             this.ovladaciMenu.Controls.Add(this.seznamL);
             this.ovladaciMenu.Controls.Add(this.seznamR);
-            this.ovladaciMenu.Controls.Add(this.vystupSeznamu);
+            this.ovladaciMenu.Controls.Add(this.vystupList);
             this.ovladaciMenu.Dock = System.Windows.Forms.DockStyle.Right;
             this.ovladaciMenu.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.ovladaciMenu.Location = new System.Drawing.Point(967, 27);
+            this.ovladaciMenu.Location = new System.Drawing.Point(1025, 27);
             this.ovladaciMenu.Name = "ovladaciMenu";
             this.ovladaciMenu.Padding = new System.Windows.Forms.Padding(30, 10, 30, 10);
-            this.ovladaciMenu.Size = new System.Drawing.Size(201, 741);
+            this.ovladaciMenu.Size = new System.Drawing.Size(234, 741);
             this.ovladaciMenu.TabIndex = 0;
             this.ovladaciMenu.WrapContents = false;
             this.ovladaciMenu.Click += new System.EventHandler(this.ovladaciMenu_Click);
@@ -90,7 +90,7 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.vstupniUzel.Location = new System.Drawing.Point(33, 13);
             this.vstupniUzel.Name = "vstupniUzel";
-            this.vstupniUzel.Size = new System.Drawing.Size(135, 23);
+            this.vstupniUzel.Size = new System.Drawing.Size(168, 23);
             this.vstupniUzel.TabIndex = 0;
             this.vstupniUzel.Text = "Vytvoř vstupní uzel";
             this.vstupniUzel.UseVisualStyleBackColor = true;
@@ -100,7 +100,7 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.prujezdovyUzel.Location = new System.Drawing.Point(33, 42);
             this.prujezdovyUzel.Name = "prujezdovyUzel";
-            this.prujezdovyUzel.Size = new System.Drawing.Size(135, 23);
+            this.prujezdovyUzel.Size = new System.Drawing.Size(168, 23);
             this.prujezdovyUzel.TabIndex = 2;
             this.prujezdovyUzel.Text = "Vytvoř průjezdový uzel";
             this.prujezdovyUzel.UseVisualStyleBackColor = true;
@@ -110,7 +110,7 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.koncovyUzel.Location = new System.Drawing.Point(33, 71);
             this.koncovyUzel.Name = "koncovyUzel";
-            this.koncovyUzel.Size = new System.Drawing.Size(135, 23);
+            this.koncovyUzel.Size = new System.Drawing.Size(168, 23);
             this.koncovyUzel.TabIndex = 1;
             this.koncovyUzel.Text = "Vytvoř koncový uzel";
             this.koncovyUzel.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.vstupniKoncovy.Location = new System.Drawing.Point(33, 100);
             this.vstupniKoncovy.Name = "vstupniKoncovy";
-            this.vstupniKoncovy.Size = new System.Drawing.Size(135, 39);
+            this.vstupniKoncovy.Size = new System.Drawing.Size(168, 39);
             this.vstupniKoncovy.TabIndex = 7;
             this.vstupniKoncovy.Text = "Vytvoř vstupní koncový uzel";
             this.vstupniKoncovy.UseVisualStyleBackColor = true;
@@ -130,7 +130,7 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.presunUzel.Location = new System.Drawing.Point(33, 145);
             this.presunUzel.Name = "presunUzel";
-            this.presunUzel.Size = new System.Drawing.Size(135, 23);
+            this.presunUzel.Size = new System.Drawing.Size(168, 23);
             this.presunUzel.TabIndex = 3;
             this.presunUzel.Text = "Přesuň existující uzel";
             this.presunUzel.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@ namespace DatoveStrukutrySemPraceA
             // 
             this.button1.Location = new System.Drawing.Point(33, 174);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(135, 23);
+            this.button1.Size = new System.Drawing.Size(168, 23);
             this.button1.TabIndex = 8;
             this.button1.Text = "Přidej výlučnou cestu...";
             this.button1.UseVisualStyleBackColor = true;
@@ -151,7 +151,7 @@ namespace DatoveStrukutrySemPraceA
             this.seznamL.BackColor = System.Drawing.Color.Orange;
             this.seznamL.Location = new System.Drawing.Point(33, 203);
             this.seznamL.Name = "seznamL";
-            this.seznamL.Size = new System.Drawing.Size(135, 23);
+            this.seznamL.Size = new System.Drawing.Size(168, 23);
             this.seznamL.TabIndex = 4;
             this.seznamL.Text = "Dej seznam L";
             this.seznamL.UseVisualStyleBackColor = false;
@@ -162,22 +162,11 @@ namespace DatoveStrukutrySemPraceA
             this.seznamR.BackColor = System.Drawing.Color.Orange;
             this.seznamR.Location = new System.Drawing.Point(33, 232);
             this.seznamR.Name = "seznamR";
-            this.seznamR.Size = new System.Drawing.Size(135, 23);
+            this.seznamR.Size = new System.Drawing.Size(168, 23);
             this.seznamR.TabIndex = 5;
             this.seznamR.Text = "Dej seznam R";
             this.seznamR.UseVisualStyleBackColor = false;
             this.seznamR.Click += new System.EventHandler(this.seznamR_click);
-            // 
-            // vystupSeznamu
-            // 
-            this.vystupSeznamu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.vystupSeznamu.Location = new System.Drawing.Point(33, 261);
-            this.vystupSeznamu.Multiline = true;
-            this.vystupSeznamu.Name = "vystupSeznamu";
-            this.vystupSeznamu.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.vystupSeznamu.Size = new System.Drawing.Size(135, 495);
-            this.vystupSeznamu.TabIndex = 6;
-            this.vystupSeznamu.TextChanged += new System.EventHandler(this.vystupSeznamu_TextChanged);
             // 
             // canvas
             // 
@@ -187,7 +176,7 @@ namespace DatoveStrukutrySemPraceA
             this.canvas.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.canvas.Location = new System.Drawing.Point(-1, 27);
             this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(972, 705);
+            this.canvas.Size = new System.Drawing.Size(1029, 705);
             this.canvas.TabIndex = 1;
             this.canvas.TabStop = false;
             this.canvas.Click += new System.EventHandler(this.canvas_Click);
@@ -209,7 +198,7 @@ namespace DatoveStrukutrySemPraceA
             this.flowLayoutPanel1.Location = new System.Drawing.Point(-1, 728);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(972, 40);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1029, 40);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // exportSeznamLDoSouboru
@@ -259,7 +248,7 @@ namespace DatoveStrukutrySemPraceA
             this.seznamTiskarenComboBox});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1168, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(1259, 27);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -314,11 +303,20 @@ namespace DatoveStrukutrySemPraceA
             this.printPreviewDialog.Name = "printPreviewDialog";
             this.printPreviewDialog.Visible = false;
             // 
+            // vystupList
+            // 
+            this.vystupList.FormattingEnabled = true;
+            this.vystupList.Location = new System.Drawing.Point(33, 261);
+            this.vystupList.Name = "vystupList";
+            this.vystupList.Size = new System.Drawing.Size(168, 446);
+            this.vystupList.TabIndex = 10;
+            this.vystupList.SelectedIndexChanged += new System.EventHandler(this.vystupList_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1168, 768);
+            this.ClientSize = new System.Drawing.Size(1259, 768);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.canvas);
             this.Controls.Add(this.ovladaciMenu);
@@ -329,7 +327,6 @@ namespace DatoveStrukutrySemPraceA
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.ovladaciMenu.ResumeLayout(false);
-            this.ovladaciMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -349,7 +346,6 @@ namespace DatoveStrukutrySemPraceA
         private Button presunUzel;
         private Button seznamL;
         private Button seznamR;
-        private TextBox vystupSeznamu;
         private Button vstupniKoncovy;
         private Button button1;
         private FlowLayoutPanel flowLayoutPanel1;
@@ -366,6 +362,7 @@ namespace DatoveStrukutrySemPraceA
         private ToolStripComboBox seznamTiskarenComboBox;
         private PageSetupDialog pageSetupDialog;
         private PrintPreviewDialog printPreviewDialog;
+        private ListBox vystupList;
     }
 }
 

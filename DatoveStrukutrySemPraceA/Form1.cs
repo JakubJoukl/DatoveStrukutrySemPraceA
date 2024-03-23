@@ -28,6 +28,8 @@ namespace DatoveStrukutrySemPraceA
         int zbyvajiciPocetStranTisku;
         VlastniVlastnostiTisku vlastniVlastnosti = new VlastniVlastnostiTisku();
 
+        List<Brush> stetce = new List<Brush> { Brushes.Pink, Brushes.PowderBlue, Brushes.Khaki, Brushes.LightGreen, Brushes.MediumAquamarine };
+
         public Form1()
         {
             InitializeComponent();
@@ -470,10 +472,22 @@ namespace DatoveStrukutrySemPraceA
         private void NakresliVrcholy(Graphics g, Pen cernePero)
         {
             //pote nakreslim vrcholy
+            List<List<string>> seznamVeskerychCestKVykresleni = DejSeznamCestAVrcholuKZvyrazneni();
+
             foreach (var vrcholNazev in editor.GrafStanic.dejSeznamVrcholu())
             {
                 Stanice stanice = editor.GrafStanic.DejDataVrcholu(vrcholNazev);
-                Brush stetecSBarvou = vrcholNazev.Equals(editor.VybranyVrchol) ? Brushes.RoyalBlue : vrcholNazev.Equals(editor.NajetyVrchol) ? Brushes.DarkMagenta : stanice.PovoleneStaniceZDo.Count > 0 ? Brushes.Olive : (stanice.Koncova && stanice.Pocatecni) ? Brushes.Lime : stanice.Pocatecni ? Brushes.Orange : stanice.Koncova ? Brushes.IndianRed : Brushes.White;
+
+                int indexVCestach = -1;
+                for (int i = 0; i < seznamVeskerychCestKVykresleni.Count; i++)
+                {
+                    if (seznamVeskerychCestKVykresleni[i].Contains(vrcholNazev))
+                    {
+                        indexVCestach = i; break;
+                    }
+                }
+
+                Brush stetecSBarvou = indexVCestach != -1 ? stetce[indexVCestach % stetce.Count] : vrcholNazev.Equals(editor.VybranyVrchol) ? Brushes.RoyalBlue : vrcholNazev.Equals(editor.NajetyVrchol) ? Brushes.DarkMagenta : stanice.PovoleneStaniceZDo.Count > 0 ? Brushes.Olive : (stanice.Koncova && stanice.Pocatecni) ? Brushes.Lime : stanice.Pocatecni ? Brushes.Orange : stanice.Koncova ? Brushes.IndianRed : Brushes.White;
                 if (stanice.Koncova || stanice.Pocatecni)
                 {
                     Rectangle rec = new Rectangle(
@@ -500,74 +514,76 @@ namespace DatoveStrukutrySemPraceA
             }
         }
 
+        private List<List<string>> DejSeznamCestAVrcholuKZvyrazneni()
+        {
+            List<List<string>> seznamVeskerychCestKVykresleni = new List<List<string>>();
+            object selectedItem = vystupList.SelectedItem;
+            if (selectedItem != null)
+            {
+                if (selectedItem is ReprezentaceCesty reprezentaceCesty)
+                {
+                    List<string> vrcholyVeVybraneCeste = new List<string>();
+                    foreach (var vrchol in reprezentaceCesty.SeznamVrcholuCesty)
+                    {
+                        vrcholyVeVybraneCeste.Add(vrchol);
+                    }
+                    seznamVeskerychCestKVykresleni.Add(vrcholyVeVybraneCeste);
+                }
+                else if (selectedItem is ReprezentaceVylucnychCest reprezentaceVylucnychCest)
+                {
+                    foreach (var cesta in reprezentaceVylucnychCest.VylucneCesty)
+                    {
+                        List<string> vrcholyVeVybraneCeste = new List<string>();
+                        foreach (var vrchol in cesta.SeznamVrcholuCesty)
+                        {
+                            vrcholyVeVybraneCeste.Add(vrchol);
+                        }
+                        seznamVeskerychCestKVykresleni.Add(vrcholyVeVybraneCeste);
+                    }
+                }
+            }
+
+            return seznamVeskerychCestKVykresleni;
+        }
+
         private void NakresliCary(Graphics g)
         {
             //nejprve nakreslim cesty
+            List<List<string>> seznamVeskerychCestKVykresleni = DejSeznamCestAVrcholuKZvyrazneni();
             Pen cernePeroCar = new Pen(Color.Black, (int)(5 * editor.Meritko));
-
             int velikostKonce = (int)(5 * editor.Meritko < 3 ? 3 : editor.Meritko * 5 > 10 ? 10 : 5 * editor.Meritko);
-
             cernePeroCar.CustomEndCap = new AdjustableArrowCap(velikostKonce, velikostKonce);
+
             foreach (var vrcholNazev in editor.GrafStanic.dejSeznamVrcholu())
             {
                 List<string> nasledniciVrcholu = editor.GrafStanic.DejNaslednikyVrcholu(vrcholNazev);
                 Stanice staniceZ = editor.GrafStanic.DejDataVrcholu(vrcholNazev);
+
+                int indexVCestach = -1;
+                for (int i = 0; i < seznamVeskerychCestKVykresleni.Count; i++)
+                {
+                    if (seznamVeskerychCestKVykresleni[i].Contains(vrcholNazev))
+                    {
+                        indexVCestach = i; break;
+                    }
+                }
+
                 foreach (var naslednikVrcholu in nasledniciVrcholu)
                 {
+                    Pen peroProVykresleni = cernePeroCar;
+                    if (indexVCestach !=  -1)
+                    {
+                        if (seznamVeskerychCestKVykresleni[indexVCestach].Contains(naslednikVrcholu))
+                        {
+                            peroProVykresleni = new Pen(stetce[indexVCestach % stetce.Count], (int)(5 * editor.Meritko));
+                            peroProVykresleni.CustomEndCap = new AdjustableArrowCap(velikostKonce, velikostKonce);
+                        }
+                    }
                     Stanice staniceDo = editor.GrafStanic.DejDataVrcholu(naslednikVrcholu);
-                    List<Point> ciloveBody = DejStartovniAKonecnouPoziciCar(staniceZ.X, staniceZ.Y, staniceDo.X, staniceDo.Y);
-                    g.DrawLine(cernePeroCar, (int)(ciloveBody[0].X * editor.Meritko) + editor.PosunKameryX, (int)(ciloveBody[0].Y * editor.Meritko) + editor.PosunKameryY, (int)(ciloveBody[1].X * editor.Meritko) + editor.PosunKameryX, (int)(ciloveBody[1].Y * editor.Meritko) + editor.PosunKameryY);
+                    List<Point> ciloveBody = editor.DejStartovniAKonecnouPoziciCar(staniceZ.X, staniceZ.Y, staniceDo.X, staniceDo.Y);
+                    g.DrawLine(peroProVykresleni, (int)(ciloveBody[0].X * editor.Meritko) + editor.PosunKameryX, (int)(ciloveBody[0].Y * editor.Meritko) + editor.PosunKameryY, (int)(ciloveBody[1].X * editor.Meritko) + editor.PosunKameryX, (int)(ciloveBody[1].Y * editor.Meritko) + editor.PosunKameryY);
                 }
             }
-        }
-
-        private List<Point> DejStartovniAKonecnouPoziciCar(int x1, int y1, int x2, int y2) {
-            int startX;
-            int startY;
-            int cilX;
-            int cilY;
-
-            if (Math.Abs(x1 - x2) < editor.Sirka) {
-                if (y1 < y2)
-                {
-                    //startY = y1 + editor.Sirka / 2;
-                    cilY = y2 - editor.Sirka / 2;
-                }
-                else
-                {
-                    //startY = y1 - editor.Sirka / 2;
-                    cilY = y2 + editor.Sirka / 2;
-                }
-                cilX = x2;
-            } else {
-                if (x1 < x2)
-                {
-                    //startX = x1 + editor.Sirka / 2;
-                    cilX = x2 - editor.Sirka / 2;
-                }
-                else {
-                    //startX = x1 - editor.Sirka / 2;
-                    cilX = x2 + editor.Sirka / 2;
-                }
-                cilY = y2;
-            }
-
-            /*
-            if (y1 < y2)
-            {
-                startY = y1 + editor.Sirka / 2;
-                cilY = y2 - editor.Sirka / 2;
-            }
-            else {
-                startY = y1 - editor.Sirka / 2;
-                cilY = y2 + editor.Sirka / 2;
-            }*/
-
-            return new List<Point>()
-            {
-                new Point(x1, y1),
-                new Point(cilX, cilY)
-            };
         }
 
         private void vstupniUzel_click(object sender, EventArgs e)
@@ -676,20 +692,63 @@ namespace DatoveStrukutrySemPraceA
 
         private void dejSeznamL_click(object sender, EventArgs e)
         {
-            string radky = DejVystupSeznamuL();
-            vystupSeznamu.Text = radky;
+            vystupList.Items.Clear();
+            Dictionary<string, ReprezentaceCesty> cesty = DejVystupSeznamuL();
+            vystupList.Items.AddRange(cesty.Values.ToArray());
         }
 
         private void seznamR_click(object sender, EventArgs e)
         {
-            string radky = "Seznam L:" + Environment.NewLine;
-            radky += DejVystupSeznamuL();
-            radky += "Seznam R:" + Environment.NewLine;
-            radky += DejVystupSeznamuR();
-            vystupSeznamu.Text = radky;
+            vystupList.Items.Clear();
+            Dictionary<string, ReprezentaceCesty> cesty = DejVystupSeznamuL();
+            List<ReprezentaceVylucnychCest> reprezentaceVylucnychCest = DejVystupSeznamuR();
+            vystupList.Items.AddRange(cesty.Values.ToArray());
+            vystupList.Items.AddRange(reprezentaceVylucnychCest.ToArray());
         }
 
-        private string DejVystupSeznamuL()
+        private Dictionary<string, ReprezentaceCesty> DejVystupSeznamuL()
+        {
+            Dictionary<string, ReprezentaceCesty> veskereCesty = new Dictionary<string, ReprezentaceCesty>();
+            Dictionary<string, List<string>> seznamL = Vypocty.DejSeznamL(editor.GrafStanic);
+            foreach (var klicHodnodnota in seznamL)
+            {
+                ReprezentaceCesty reprezentaceCesty = new ReprezentaceCesty();
+                reprezentaceCesty.NazevCesty = klicHodnodnota.Key;
+                for (int i = 0; i < klicHodnodnota.Value.Count; i++)
+                {
+                    reprezentaceCesty.PridejVrchol(klicHodnodnota.Value[i]);
+                }
+                veskereCesty.Add(klicHodnodnota.Key, reprezentaceCesty);
+            }
+
+            return veskereCesty;
+        }
+
+        private List<ReprezentaceVylucnychCest> DejVystupSeznamuR() {
+            int cisloCesty = 1;
+            List<List<string>> seznamR = Vypocty.DejSeznamR(editor.GrafStanic);
+            List<ReprezentaceVylucnychCest> reprezentaceVylucnychCest = new List<ReprezentaceVylucnychCest>();
+            Dictionary<string, ReprezentaceCesty> reprezentaceCest = DejVystupSeznamuL();
+
+            foreach (var cesta in seznamR)
+            {
+                ReprezentaceVylucnychCest aktualniReprezentaceVylucnychCest = new ReprezentaceVylucnychCest();
+                aktualniReprezentaceVylucnychCest.NazevCesty = "C" + cisloCesty;
+
+                for (int i = 0; i < cesta.Count; i++)
+                {
+                    aktualniReprezentaceVylucnychCest.pridejCestu(reprezentaceCest[cesta[i]]);
+                }
+
+                reprezentaceVylucnychCest.Add(aktualniReprezentaceVylucnychCest);
+
+                cisloCesty++;
+            }
+
+            return reprezentaceVylucnychCest;
+        }
+
+        private string DejTextovyVystupSeznamuL()
         {
             string radky = "";
             Dictionary<string, List<string>> seznamL = Vypocty.DejSeznamL(editor.GrafStanic);
@@ -714,7 +773,7 @@ namespace DatoveStrukutrySemPraceA
             return radky;
         }
 
-        private string DejVystupSeznamuR() {
+        private string DejTextovyVystupSeznamuR() {
             string radky = "";
             int cisloCesty = 1;
             List<List<string>> seznamR = Vypocty.DejSeznamR(editor.GrafStanic);
@@ -794,12 +853,12 @@ namespace DatoveStrukutrySemPraceA
 
         private void exportSeznamLDoSouboru_click(object sender, EventArgs e)
         {
-            editor.UlozTextDoSouboru(DejVystupSeznamuL());
+            editor.UlozTextDoSouboru(DejTextovyVystupSeznamuL());
         }
 
         private void exportSeznamRDoSouboru_Click(object sender, EventArgs e)
         {
-            editor.UlozTextDoSouboru(DejVystupSeznamuR());
+            editor.UlozTextDoSouboru(DejTextovyVystupSeznamuR());
         }
 
         private void sToolStripMenuItem_Click(object sender, EventArgs e)
@@ -892,6 +951,74 @@ namespace DatoveStrukutrySemPraceA
                 vlastniVlastnosti.PosterovyTisk = dialogTiskuStranky.PosterovyTisk();
                 vlastniVlastnosti.PocetStranNaSirku = dialogTiskuStranky.PocetStranPosterovehoTiskuNaSirku();
                 vlastniVlastnosti.PocetStranNaVysku = dialogTiskuStranky.PocetStranPosterovehoTiskuNaVysku();
+            }
+        }
+
+        private class ReprezentaceCesty {
+            public List<string> SeznamVrcholuCesty { get; } = new List<string>();
+            public string NazevCesty { get; set; }
+
+            public void PridejVrchol(string nazevVrcholu) {
+                SeznamVrcholuCesty.Add(nazevVrcholu);
+            }
+
+            public override string ToString() {
+                string vystup = NazevCesty + ": {";
+                for (int i = 0; i < SeznamVrcholuCesty.Count; i++)
+                {
+                    if (i < SeznamVrcholuCesty.Count - 1)
+                    {
+                        vystup += SeznamVrcholuCesty[i] + ", ";
+                    }
+                    else
+                    {
+                        vystup += SeznamVrcholuCesty[i];
+                    }
+                }
+                vystup += "}";
+                return vystup;
+            }
+        }
+
+        private class ReprezentaceVylucnychCest
+        {
+            public List<ReprezentaceCesty> VylucneCesty { get; } = new List<ReprezentaceCesty>();
+            public string NazevCesty { get; set; }
+
+            public ReprezentaceVylucnychCest()
+            {
+
+            }
+
+            public void pridejCestu(ReprezentaceCesty reprezentaceCesty) {
+                VylucneCesty.Add(reprezentaceCesty);
+            }
+
+            public override string ToString()
+            {
+                string vystup = "{";
+                for (int i = 0; i < VylucneCesty.Count; i++)
+                {
+                    if (i < VylucneCesty.Count - 1)
+                    {
+                        vystup += VylucneCesty[i].NazevCesty + ", ";
+                    }
+                    else
+                    {
+                        vystup += VylucneCesty[i].NazevCesty;
+                    }
+                }
+                vystup += "}";
+                return vystup;
+            }
+        }
+
+        private void vystupList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            object selectedItem = vystupList.SelectedItem;
+            if (selectedItem != null)
+            {
+                canvas.Invalidate();
             }
         }
     }
