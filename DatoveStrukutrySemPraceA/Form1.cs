@@ -23,8 +23,13 @@ namespace DatoveStrukutrySemPraceA
     {
         private PrintDocument printDocument;
 
+        int radkyVPosteru = 1;
+        int sloupceVPosteru = 1;
+        int aktualniRadek = 1;
+        int aktualniSloupec = 1;
+
         int aktualniTistenaStranka = 1;
-        int celkovyPocetStranDokumentu = 2;
+        int celkovyPocetStranDokumentu = 1;
         int zbyvajiciPocetStranTisku;
         VlastniVlastnostiTisku vlastniVlastnosti = new VlastniVlastnostiTisku();
 
@@ -138,6 +143,16 @@ namespace DatoveStrukutrySemPraceA
                 editor.Meritko = 1;
             }
 
+            //nejprve tisknu zleva doprava
+            //pote jdu nize 
+            if (vlastniVlastnosti.PosterovyTisk)
+            {
+                uvazovanaSirka = uvazovanaSirka / sloupceVPosteru;
+                uvazovanaVyska = uvazovanaVyska / radkyVPosteru;
+                editor.PosunKameryX = editor.PosunKameryX - (uvazovanaSirka * (aktualniSloupec - 1));
+                editor.PosunKameryY = editor.PosunKameryY - (uvazovanaVyska * (aktualniRadek - 1));
+            }
+
             //X tisku = e.MarginBounds.Width
             float pomerTiskuX = (float)e.MarginBounds.Width / uvazovanaSirka;
 
@@ -213,6 +228,15 @@ namespace DatoveStrukutrySemPraceA
 
             aktualniTistenaStranka++;
             zbyvajiciPocetStranTisku--;
+
+            if (vlastniVlastnosti.PosterovyTisk) {
+                aktualniSloupec++;
+                if (aktualniSloupec > sloupceVPosteru) { 
+                    aktualniSloupec = 1;
+                    aktualniRadek++;
+                }
+            }
+
             if (zbyvajiciPocetStranTisku > 0)
                 e.HasMorePages = true;
             else
@@ -899,9 +923,13 @@ namespace DatoveStrukutrySemPraceA
             //printDialog.PrinterSettings = printDocument.PrinterSettings;
             printDialog.AllowSomePages = true;
             printDialog.PrinterSettings.MinimumPage = 1;
-            printDialog.PrinterSettings.MaximumPage = celkovyPocetStranDokumentu;
             printDialog.PrinterSettings.FromPage = 1;
+            aktualniRadek = 1;
+            aktualniSloupec = 1;
+
+            printDialog.PrinterSettings.MaximumPage = celkovyPocetStranDokumentu;
             printDialog.PrinterSettings.ToPage = celkovyPocetStranDokumentu;
+            zbyvajiciPocetStranTisku = celkovyPocetStranDokumentu;
 
             printDocument.Print();
 
@@ -940,11 +968,15 @@ namespace DatoveStrukutrySemPraceA
                 case PrintRange.AllPages:
                     aktualniTistenaStranka = 1;
                     zbyvajiciPocetStranTisku = celkovyPocetStranDokumentu;
+                    aktualniRadek = 1;
+                    aktualniSloupec = 1;
                     break;
                 case PrintRange.SomePages:
                     aktualniTistenaStranka = printDialog.PrinterSettings.FromPage;
                     zbyvajiciPocetStranTisku = printDialog.PrinterSettings.ToPage
                                                - printDialog.PrinterSettings.FromPage + 1;
+                    aktualniRadek = 1;
+                    aktualniSloupec = 1;
                     break;
             }
 
@@ -984,6 +1016,18 @@ namespace DatoveStrukutrySemPraceA
                 vlastniVlastnosti.PosterovyTisk = dialogTiskuStranky.PosterovyTisk();
                 vlastniVlastnosti.PocetStranNaSirku = dialogTiskuStranky.PocetStranPosterovehoTiskuNaSirku();
                 vlastniVlastnosti.PocetStranNaVysku = dialogTiskuStranky.PocetStranPosterovehoTiskuNaVysku();
+
+                if (vlastniVlastnosti.PosterovyTisk && vlastniVlastnosti.PocetStranNaSirku > 0 && vlastniVlastnosti.PocetStranNaVysku > 0)
+                {
+                    radkyVPosteru = vlastniVlastnosti.PocetStranNaVysku;
+                    sloupceVPosteru = vlastniVlastnosti.PocetStranNaSirku;
+                    celkovyPocetStranDokumentu = radkyVPosteru * sloupceVPosteru;
+                }
+                else {
+                    radkyVPosteru = 1;
+                    sloupceVPosteru = 1;
+                    celkovyPocetStranDokumentu = 1;
+                }
             }
         }
 
