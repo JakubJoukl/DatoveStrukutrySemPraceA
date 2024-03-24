@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DatoveStrukutrySemPraceA.Editor;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -29,16 +30,16 @@ namespace DatoveStrukutrySemPraceA
             return (PaperKind)Enum.Parse(typeof(PaperKind), velikostCb.Text);
         }
         public Orientace Orientace() {
-            return naSirku.Checked ? DatoveStrukutrySemPraceA.Orientace.NA_SIRKU : DatoveStrukutrySemPraceA.Orientace.NA_VYSKU;
+            return naSirku.Checked ? Editor.Orientace.NA_SIRKU : Editor.Orientace.NA_VYSKU;
         }
         public Tisknout Tisknout() {
-            return celouSit.Checked? DatoveStrukutrySemPraceA.Tisknout.CELA_SIT : DatoveStrukutrySemPraceA.Tisknout.VIDITELNA_CAST;
+            return celouSit.Checked? Editor.Tisknout.CELA_SIT : Editor.Tisknout.VIDITELNA_CAST;
         }
         public Pomer_stran PomerStran() {
             return zachovatBtn.Checked ? Pomer_stran.ZACHOVAT : Pomer_stran.ROZTAHNOUT; 
         }
         public Centrovani Centrovani() {
-            return DleVrcholu.Checked ? DatoveStrukutrySemPraceA.Centrovani.DLE_VRCHOLU : DatoveStrukutrySemPraceA.Centrovani.DLE_KAMERY;
+            return DleVrcholu.Checked ? Editor.Centrovani.DLE_VRCHOLU : Editor.Centrovani.DLE_KAMERY;
         }
         public Druh_posteroveho_tisku DruhPosterovehoTisku() {
             return poctemStran.Checked ? Druh_posteroveho_tisku.POCTEM_STRAN : Druh_posteroveho_tisku.MERITKEM;
@@ -114,34 +115,41 @@ namespace DatoveStrukutrySemPraceA
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
-    }
 
-    public enum Orientace { 
-        NA_SIRKU,
-        NA_VYSKU
-    }
+        private void celouSit_CheckedChanged(object sender, EventArgs e)
+        {
 
-    public enum Tisknout
-    {
-        CELA_SIT,
-        VIDITELNA_CAST
-    }
+        }
 
-    public enum Pomer_stran
-    {
-        ZACHOVAT,
-        ROZTAHNOUT
-    }
+        private void DialogTiskuStranky_Load(object sender, EventArgs e)
+        {
 
-    public enum Centrovani
-    {
-        DLE_VRCHOLU,
-        DLE_KAMERY
-    }
+        }
 
-    public enum Druh_posteroveho_tisku { 
-        POCTEM_STRAN,
-        MERITKEM
+        public void NactiUlozeneVlastnosti(VlastniVlastnostiTisku vlastniVlastnostiTisku,
+            PrinterSettings nastaveniTiskarny, PageSettings vlastnostiTisku) {
+            velikostCb.Text = vlastnostiTisku.PaperSize.Kind.ToString();
+            if (vlastnostiTisku.Landscape)
+            {
+                naSirku.Checked = true;
+            }
+            else { 
+                naVysku.Checked = true;
+            }
+            Okraje okraje = vlastniVlastnostiTisku.Okraje;
+            vlevoNm.Value = okraje.Vlevo;
+            vpravoNm.Value = okraje.Vpravo;
+            nahoreNm.Value = okraje.Nahore;
+            doleNm.Value = okraje.Dole;
+            if (vlastniVlastnostiTisku.Tisknout == Editor.Tisknout.CELA_SIT)
+            {
+                celouSit.Checked = true;
+            }
+            else {
+                viditelnouCast.Checked = true;
+            }
+            //if(vlastniVlastnostiTisku)
+        }
     }
 
     public class Okraje {

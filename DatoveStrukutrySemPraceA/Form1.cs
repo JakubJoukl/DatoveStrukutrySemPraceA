@@ -149,7 +149,7 @@ namespace DatoveStrukutrySemPraceA
             g.TranslateTransform(e.MarginBounds.Left + posunTiskuX, e.MarginBounds.Top + posunTiskuY);
             if (pomerTisku != 0)
             {
-                g.ScaleTransform(pomerTisku, pomerTisku);
+                g.ScaleTransform(pomerTiskuX, pomerTiskuY);
             }
 
             Kresli(g);
@@ -158,12 +158,7 @@ namespace DatoveStrukutrySemPraceA
 
             // varianta s formatovanim textu
             Font font7 = new Font("Arial Bold", 7f, GraphicsUnit.Millimeter);
-            string textHorni = "PG2_Úkol_03 - Dopravní síť: Pardubice a okolí\n";
-
-            if (aktualniTistenaStranka == 1)
-                textHorni += "Stránka 1 (síť včetně podkladové mapy)";
-            else
-                textHorni += "Stránka 2 (pouze síť)";
+            string textHorni = vlastniVlastnosti.TextVZahlavi;
             StringFormat strfmt = new StringFormat();
             strfmt.Alignment = StringAlignment.Center;
             strfmt.LineAlignment = StringAlignment.Center;
@@ -173,7 +168,7 @@ namespace DatoveStrukutrySemPraceA
 
             //presne umisteni textu
             Font font5 = new Font("Arial", 5f, GraphicsUnit.Millimeter);
-            string textDolniL = "Petr Veselý";
+            string textDolniL = vlastniVlastnosti.TextVZapati;
             SizeF sizeTextDolniL = g.MeasureString(textDolniL, font5);
             g.DrawString(textDolniL, font5, Brushes.Black,
                          1, e.PageBounds.Height - e.PageBounds.Top - sizeTextDolniL.Height - 1);
@@ -921,9 +916,11 @@ namespace DatoveStrukutrySemPraceA
         private void vzhledStránkyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogTiskuStranky dialogTiskuStranky = new DialogTiskuStranky();
+            PageSettings vlastnostiTisku = printDocument.DefaultPageSettings;
+            PrinterSettings nastaveniTiskarny = vlastnostiTisku.PrinterSettings;
+            dialogTiskuStranky.NactiUlozeneVlastnosti(vlastniVlastnosti, nastaveniTiskarny, vlastnostiTisku);
+
             if (dialogTiskuStranky.ShowDialog() == DialogResult.OK) {
-                PageSettings vlastnostiTisku = printDocument.DefaultPageSettings;
-                PrinterSettings nastaveniTiskarny = vlastnostiTisku.PrinterSettings;
                 PaperKind zvolenyDruhPapiru = dialogTiskuStranky.VelikostStranky();
 
                 foreach (PaperSize vybranyFormat in nastaveniTiskarny.PaperSizes)

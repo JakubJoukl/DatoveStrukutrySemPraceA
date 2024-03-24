@@ -35,6 +35,10 @@
             this.naSirku = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.doleNm = new System.Windows.Forms.NumericUpDown();
+            this.vpravoNm = new System.Windows.Forms.NumericUpDown();
+            this.nahoreNm = new System.Windows.Forms.NumericUpDown();
+            this.vlevoNm = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -55,38 +59,34 @@
             this.textVZahlaviTxt = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.meritkoNm = new System.Windows.Forms.NumericUpDown();
             this.meritkem = new System.Windows.Forms.RadioButton();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.pocetStranekNaSirku = new System.Windows.Forms.NumericUpDown();
+            this.pocetStranekNaVysku = new System.Windows.Forms.NumericUpDown();
             this.poctemStran = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.posterovyTisk = new System.Windows.Forms.CheckBox();
             this.zrusBtn = new System.Windows.Forms.Button();
             this.PotvrdBtn = new System.Windows.Forms.Button();
-            this.pocetStranekNaVysku = new System.Windows.Forms.NumericUpDown();
-            this.pocetStranekNaSirku = new System.Windows.Forms.NumericUpDown();
-            this.vlevoNm = new System.Windows.Forms.NumericUpDown();
-            this.nahoreNm = new System.Windows.Forms.NumericUpDown();
-            this.vpravoNm = new System.Windows.Forms.NumericUpDown();
-            this.doleNm = new System.Windows.Forms.NumericUpDown();
-            this.meritkoNm = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.doleNm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vpravoNm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nahoreNm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vlevoNm)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaVysku)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaSirku)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vlevoNm)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nahoreNm)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vpravoNm)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.doleNm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.meritkoNm)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaSirku)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaVysku)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -114,15 +114,18 @@
             this.velikostCb.Name = "velikostCb";
             this.velikostCb.Size = new System.Drawing.Size(189, 21);
             this.velikostCb.TabIndex = 5;
+            this.velikostCb.Text = "A4";
             this.velikostCb.SelectedIndexChanged += new System.EventHandler(this.velikostCb_SelectedIndexChanged);
             // 
             // naVysku
             // 
             this.naVysku.AutoSize = true;
+            this.naVysku.Checked = true;
             this.naVysku.Location = new System.Drawing.Point(65, 49);
             this.naVysku.Name = "naVysku";
             this.naVysku.Size = new System.Drawing.Size(70, 17);
             this.naVysku.TabIndex = 8;
+            this.naVysku.TabStop = true;
             this.naVysku.Text = "Na výšku";
             this.naVysku.UseVisualStyleBackColor = true;
             this.naVysku.CheckedChanged += new System.EventHandler(this.naVysku_CheckedChanged);
@@ -134,7 +137,6 @@
             this.naSirku.Name = "naSirku";
             this.naSirku.Size = new System.Drawing.Size(67, 17);
             this.naSirku.TabIndex = 9;
-            this.naSirku.TabStop = true;
             this.naSirku.Text = "Na šířku";
             this.naSirku.UseVisualStyleBackColor = true;
             this.naSirku.CheckedChanged += new System.EventHandler(this.naSirku_CheckedChanged);
@@ -169,6 +171,54 @@
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Okraje (mm)";
+            // 
+            // doleNm
+            // 
+            this.doleNm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.doleNm.Location = new System.Drawing.Point(179, 49);
+            this.doleNm.Name = "doleNm";
+            this.doleNm.Size = new System.Drawing.Size(74, 20);
+            this.doleNm.TabIndex = 9;
+            // 
+            // vpravoNm
+            // 
+            this.vpravoNm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.vpravoNm.Location = new System.Drawing.Point(179, 23);
+            this.vpravoNm.Name = "vpravoNm";
+            this.vpravoNm.Size = new System.Drawing.Size(74, 20);
+            this.vpravoNm.TabIndex = 8;
+            // 
+            // nahoreNm
+            // 
+            this.nahoreNm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nahoreNm.Location = new System.Drawing.Point(50, 49);
+            this.nahoreNm.Name = "nahoreNm";
+            this.nahoreNm.Size = new System.Drawing.Size(74, 20);
+            this.nahoreNm.TabIndex = 7;
+            // 
+            // vlevoNm
+            // 
+            this.vlevoNm.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.vlevoNm.Location = new System.Drawing.Point(50, 23);
+            this.vlevoNm.Name = "vlevoNm";
+            this.vlevoNm.Size = new System.Drawing.Size(74, 20);
+            this.vlevoNm.TabIndex = 6;
             // 
             // label8
             // 
@@ -231,6 +281,7 @@
             // celouSit
             // 
             this.celouSit.AutoSize = true;
+            this.celouSit.Checked = true;
             this.celouSit.Location = new System.Drawing.Point(8, 20);
             this.celouSit.Name = "celouSit";
             this.celouSit.Size = new System.Drawing.Size(68, 17);
@@ -238,6 +289,7 @@
             this.celouSit.TabStop = true;
             this.celouSit.Text = "Celou síť";
             this.celouSit.UseVisualStyleBackColor = true;
+            this.celouSit.CheckedChanged += new System.EventHandler(this.celouSit_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -264,6 +316,7 @@
             // zachovatBtn
             // 
             this.zachovatBtn.AutoSize = true;
+            this.zachovatBtn.Checked = true;
             this.zachovatBtn.Location = new System.Drawing.Point(6, 19);
             this.zachovatBtn.Name = "zachovatBtn";
             this.zachovatBtn.Size = new System.Drawing.Size(71, 17);
@@ -297,6 +350,7 @@
             // DleVrcholu
             // 
             this.DleVrcholu.AutoSize = true;
+            this.DleVrcholu.Checked = true;
             this.DleVrcholu.Location = new System.Drawing.Point(5, 19);
             this.DleVrcholu.Name = "DleVrcholu";
             this.DleVrcholu.Size = new System.Drawing.Size(79, 17);
@@ -375,6 +429,13 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Měřítkem";
             // 
+            // meritkoNm
+            // 
+            this.meritkoNm.Location = new System.Drawing.Point(76, 18);
+            this.meritkoNm.Name = "meritkoNm";
+            this.meritkoNm.Size = new System.Drawing.Size(152, 20);
+            this.meritkoNm.TabIndex = 5;
+            // 
             // meritkem
             // 
             this.meritkem.AutoSize = true;
@@ -408,6 +469,20 @@
             this.groupBox8.TabIndex = 1;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Počtem stran";
+            // 
+            // pocetStranekNaSirku
+            // 
+            this.pocetStranekNaSirku.Location = new System.Drawing.Point(177, 17);
+            this.pocetStranekNaSirku.Name = "pocetStranekNaSirku";
+            this.pocetStranekNaSirku.Size = new System.Drawing.Size(51, 20);
+            this.pocetStranekNaSirku.TabIndex = 6;
+            // 
+            // pocetStranekNaVysku
+            // 
+            this.pocetStranekNaVysku.Location = new System.Drawing.Point(67, 17);
+            this.pocetStranekNaVysku.Name = "pocetStranekNaVysku";
+            this.pocetStranekNaVysku.Size = new System.Drawing.Size(51, 20);
+            this.pocetStranekNaVysku.TabIndex = 5;
             // 
             // poctemStran
             // 
@@ -467,75 +542,6 @@
             this.PotvrdBtn.UseVisualStyleBackColor = true;
             this.PotvrdBtn.Click += new System.EventHandler(this.PotvrdBtn_Click);
             // 
-            // pocetStranekNaVysku
-            // 
-            this.pocetStranekNaVysku.Location = new System.Drawing.Point(67, 17);
-            this.pocetStranekNaVysku.Name = "pocetStranekNaVysku";
-            this.pocetStranekNaVysku.Size = new System.Drawing.Size(51, 20);
-            this.pocetStranekNaVysku.TabIndex = 5;
-            // 
-            // pocetStranekNaSirku
-            // 
-            this.pocetStranekNaSirku.Location = new System.Drawing.Point(177, 17);
-            this.pocetStranekNaSirku.Name = "pocetStranekNaSirku";
-            this.pocetStranekNaSirku.Size = new System.Drawing.Size(51, 20);
-            this.pocetStranekNaSirku.TabIndex = 6;
-            // 
-            // vlevoNm
-            // 
-            this.vlevoNm.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.vlevoNm.Location = new System.Drawing.Point(50, 23);
-            this.vlevoNm.Name = "vlevoNm";
-            this.vlevoNm.Size = new System.Drawing.Size(74, 20);
-            this.vlevoNm.TabIndex = 6;
-            // 
-            // nahoreNm
-            // 
-            this.nahoreNm.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nahoreNm.Location = new System.Drawing.Point(50, 49);
-            this.nahoreNm.Name = "nahoreNm";
-            this.nahoreNm.Size = new System.Drawing.Size(74, 20);
-            this.nahoreNm.TabIndex = 7;
-            // 
-            // vpravoNm
-            // 
-            this.vpravoNm.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.vpravoNm.Location = new System.Drawing.Point(179, 23);
-            this.vpravoNm.Name = "vpravoNm";
-            this.vpravoNm.Size = new System.Drawing.Size(74, 20);
-            this.vpravoNm.TabIndex = 8;
-            // 
-            // doleNm
-            // 
-            this.doleNm.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.doleNm.Location = new System.Drawing.Point(179, 49);
-            this.doleNm.Name = "doleNm";
-            this.doleNm.Size = new System.Drawing.Size(74, 20);
-            this.doleNm.TabIndex = 9;
-            // 
-            // meritkoNm
-            // 
-            this.meritkoNm.Location = new System.Drawing.Point(76, 18);
-            this.meritkoNm.Name = "meritkoNm";
-            this.meritkoNm.Size = new System.Drawing.Size(152, 20);
-            this.meritkoNm.TabIndex = 5;
-            // 
             // DialogTiskuStranky
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -552,10 +558,15 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "DialogTiskuStranky";
             this.Text = "Dialog tisku stranky";
+            this.Load += new System.EventHandler(this.DialogTiskuStranky_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.doleNm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vpravoNm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nahoreNm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vlevoNm)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -568,15 +579,11 @@
             this.groupBox7.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.meritkoNm)).EndInit();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaVysku)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaSirku)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vlevoNm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nahoreNm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vpravoNm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.doleNm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.meritkoNm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pocetStranekNaVysku)).EndInit();
             this.ResumeLayout(false);
 
         }
