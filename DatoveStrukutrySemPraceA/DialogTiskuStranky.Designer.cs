@@ -49,9 +49,6 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.roztahnoutBtn = new System.Windows.Forms.RadioButton();
             this.zachovatBtn = new System.Windows.Forms.RadioButton();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.DleKamery = new System.Windows.Forms.RadioButton();
-            this.DleVrcholu = new System.Windows.Forms.RadioButton();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.textVZapatiTxt = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -79,7 +76,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.vlevoNm)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -112,7 +108,7 @@
             this.velikostCb.FormattingEnabled = true;
             this.velikostCb.Location = new System.Drawing.Point(65, 25);
             this.velikostCb.Name = "velikostCb";
-            this.velikostCb.Size = new System.Drawing.Size(189, 21);
+            this.velikostCb.Size = new System.Drawing.Size(179, 21);
             this.velikostCb.TabIndex = 5;
             this.velikostCb.Text = "A4";
             this.velikostCb.SelectedIndexChanged += new System.EventHandler(this.velikostCb_SelectedIndexChanged);
@@ -133,7 +129,7 @@
             // naSirku
             // 
             this.naSirku.AutoSize = true;
-            this.naSirku.Location = new System.Drawing.Point(187, 49);
+            this.naSirku.Location = new System.Drawing.Point(177, 49);
             this.naSirku.Name = "naSirku";
             this.naSirku.Size = new System.Drawing.Size(67, 17);
             this.naSirku.TabIndex = 9;
@@ -150,7 +146,7 @@
             this.groupBox1.Controls.Add(this.velikostCb);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(264, 73);
+            this.groupBox1.Size = new System.Drawing.Size(254, 73);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Papír";
@@ -325,49 +321,15 @@
             this.zachovatBtn.Text = "Zachovat";
             this.zachovatBtn.UseVisualStyleBackColor = true;
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.DleKamery);
-            this.groupBox5.Controls.Add(this.DleVrcholu);
-            this.groupBox5.Location = new System.Drawing.Point(16, 289);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(250, 46);
-            this.groupBox5.TabIndex = 14;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Centrování";
-            // 
-            // DleKamery
-            // 
-            this.DleKamery.AutoSize = true;
-            this.DleKamery.Location = new System.Drawing.Point(163, 19);
-            this.DleKamery.Name = "DleKamery";
-            this.DleKamery.Size = new System.Drawing.Size(78, 17);
-            this.DleKamery.TabIndex = 1;
-            this.DleKamery.TabStop = true;
-            this.DleKamery.Text = "Dle kamery";
-            this.DleKamery.UseVisualStyleBackColor = true;
-            // 
-            // DleVrcholu
-            // 
-            this.DleVrcholu.AutoSize = true;
-            this.DleVrcholu.Checked = true;
-            this.DleVrcholu.Location = new System.Drawing.Point(5, 19);
-            this.DleVrcholu.Name = "DleVrcholu";
-            this.DleVrcholu.Size = new System.Drawing.Size(79, 17);
-            this.DleVrcholu.TabIndex = 0;
-            this.DleVrcholu.TabStop = true;
-            this.DleVrcholu.Text = "Dle vrcholů";
-            this.DleVrcholu.UseVisualStyleBackColor = true;
-            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.textVZapatiTxt);
             this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.textVZahlaviTxt);
-            this.groupBox6.Location = new System.Drawing.Point(16, 342);
+            this.groupBox6.Location = new System.Drawing.Point(12, 289);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(250, 110);
+            this.groupBox6.Size = new System.Drawing.Size(254, 110);
             this.groupBox6.TabIndex = 15;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = " Text na stránce";
@@ -410,7 +372,7 @@
             this.groupBox7.Controls.Add(this.groupBox9);
             this.groupBox7.Controls.Add(this.groupBox8);
             this.groupBox7.Controls.Add(this.posterovyTisk);
-            this.groupBox7.Location = new System.Drawing.Point(16, 459);
+            this.groupBox7.Location = new System.Drawing.Point(12, 405);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(250, 126);
             this.groupBox7.TabIndex = 16;
@@ -524,7 +486,7 @@
             // 
             // zrusBtn
             // 
-            this.zrusBtn.Location = new System.Drawing.Point(16, 591);
+            this.zrusBtn.Location = new System.Drawing.Point(12, 537);
             this.zrusBtn.Name = "zrusBtn";
             this.zrusBtn.Size = new System.Drawing.Size(75, 23);
             this.zrusBtn.TabIndex = 17;
@@ -534,7 +496,7 @@
             // 
             // PotvrdBtn
             // 
-            this.PotvrdBtn.Location = new System.Drawing.Point(191, 591);
+            this.PotvrdBtn.Location = new System.Drawing.Point(187, 537);
             this.PotvrdBtn.Name = "PotvrdBtn";
             this.PotvrdBtn.Size = new System.Drawing.Size(75, 23);
             this.PotvrdBtn.TabIndex = 18;
@@ -546,12 +508,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(278, 626);
+            this.ClientSize = new System.Drawing.Size(278, 567);
             this.Controls.Add(this.PotvrdBtn);
             this.Controls.Add(this.zrusBtn);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -571,8 +532,6 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -606,9 +565,6 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.RadioButton roztahnoutBtn;
         private System.Windows.Forms.RadioButton zachovatBtn;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.RadioButton DleKamery;
-        private System.Windows.Forms.RadioButton DleVrcholu;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textVZahlaviTxt;

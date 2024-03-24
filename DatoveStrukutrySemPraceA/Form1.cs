@@ -95,8 +95,11 @@ namespace DatoveStrukutrySemPraceA
 
         private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-
             Graphics g = e.Graphics;
+
+            int staryPosunKameryX = editor.PosunKameryX;
+            int staryPosunKameryY = editor.PosunKameryY;
+            double stareMeritko = editor.Meritko;
 
             RectangleF rectPageBounds = e.PageBounds;
             g.DrawRectangles(Pens.Black, new RectangleF[] { rectPageBounds });
@@ -114,11 +117,32 @@ namespace DatoveStrukutrySemPraceA
 
             DejMinAMaxXYSouradnice(out MinX, out MaxX, out MinY, out MaxY);
 
+            int uvazovanaSirka = (canvas.Width - 0);
+            int uvazovanaVyska = (canvas.Height - 0);
+
+            if (vlastniVlastnosti.Tisknout == Tisknout.CELA_SIT)
+            {
+                int velikostRozpetiSirka = (MaxX - MinX) + (editor.Sirka * 2);
+                int velikostRozpetiVyska = (MaxY - MinY) + (editor.Sirka * 2);
+                editor.PosunKameryX = -MinX + editor.Sirka;
+                editor.PosunKameryY = -MinY + editor.Sirka;
+
+                //Nefunguje - obsahuje nejaky bug
+                //float meritkoX = canvas.Width / (float)velikostRozpetiSirka;
+                //float meritkoY = canvas.Height / (float)velikostRozpetiVyska;
+                //editor.Meritko = meritkoX < meritkoY ? meritkoX : meritkoY;
+
+                //Dalsi moznost
+                uvazovanaSirka = velikostRozpetiSirka;
+                uvazovanaVyska = velikostRozpetiVyska;
+                editor.Meritko = 1;
+            }
+
             //X tisku = e.MarginBounds.Width
-            float pomerTiskuX = (float)e.MarginBounds.Width / (canvas.Width - 0);
+            float pomerTiskuX = (float)e.MarginBounds.Width / uvazovanaSirka;
 
             //Y tisku = e.MarginBounds.Height
-            float pomerTiskuY = (float)e.MarginBounds.Height / (canvas.Height - 0);
+            float pomerTiskuY = (float)e.MarginBounds.Height / uvazovanaVyska;
             float pomerTisku;
 
             if (pomerTiskuX == float.NegativeInfinity || pomerTiskuX == float.PositiveInfinity)
@@ -138,18 +162,24 @@ namespace DatoveStrukutrySemPraceA
             if (pomerTiskuX < pomerTiskuY)
             {
                 pomerTisku = pomerTiskuX;
-                posunTiskuY = (e.MarginBounds.Height - canvas.Height * pomerTisku) / 2f;
+                posunTiskuY = (e.MarginBounds.Height - uvazovanaVyska * pomerTisku) / 2f;
             }
             else
             {
                 pomerTisku = pomerTiskuY;
-                posunTiskuX = (e.MarginBounds.Width - canvas.Width * pomerTisku) / 2f;
+                posunTiskuX = (e.MarginBounds.Width - uvazovanaSirka * pomerTisku) / 2f;
             }
 
             g.TranslateTransform(e.MarginBounds.Left + posunTiskuX, e.MarginBounds.Top + posunTiskuY);
             if (pomerTisku != 0)
             {
-                g.ScaleTransform(pomerTiskuX, pomerTiskuY);
+                if (vlastniVlastnosti.PomerStran == Pomer_stran.ZACHOVAT)
+                {
+                    g.ScaleTransform(pomerTisku, pomerTisku);
+                }
+                else {
+                    g.ScaleTransform(pomerTiskuX, pomerTiskuY);
+                }
             }
 
             Kresli(g);
@@ -188,6 +218,9 @@ namespace DatoveStrukutrySemPraceA
             else
                 e.HasMorePages = false;
 
+            editor.PosunKameryX = staryPosunKameryX;
+            editor.PosunKameryY = staryPosunKameryY;
+            editor.Meritko = stareMeritko;
         }
 
         Editor.Editor editor;
@@ -863,13 +896,17 @@ namespace DatoveStrukutrySemPraceA
 
         private void tiskToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //printDialog.PrinterSettings = printDocument.PrinterSettings;
             printDialog.AllowSomePages = true;
             printDialog.PrinterSettings.MinimumPage = 1;
             printDialog.PrinterSettings.MaximumPage = celkovyPocetStranDokumentu;
             printDialog.PrinterSettings.FromPage = 1;
             printDialog.PrinterSettings.ToPage = celkovyPocetStranDokumentu;
 
+            printDocument.Print();
+
             // zobrazime dialog
+            /*
             if (printDialog.ShowDialog() == DialogResult.OK)
             {
                 // Tistene stanky 
@@ -893,6 +930,7 @@ namespace DatoveStrukutrySemPraceA
                 // Vlastní tisk
                 printDocument.Print();
             }
+            */
         }
 
         private void náhledToolStripMenuItem_Click(object sender, EventArgs e)
@@ -918,7 +956,7 @@ namespace DatoveStrukutrySemPraceA
             DialogTiskuStranky dialogTiskuStranky = new DialogTiskuStranky();
             PageSettings vlastnostiTisku = printDocument.DefaultPageSettings;
             PrinterSettings nastaveniTiskarny = vlastnostiTisku.PrinterSettings;
-            dialogTiskuStranky.NactiUlozeneVlastnosti(vlastniVlastnosti, nastaveniTiskarny, vlastnostiTisku);
+            dialogTiskuStranky.InicializujDialogANactiUlozeneVlastnosti(vlastniVlastnosti, nastaveniTiskarny, vlastnostiTisku);
 
             if (dialogTiskuStranky.ShowDialog() == DialogResult.OK) {
                 PaperKind zvolenyDruhPapiru = dialogTiskuStranky.VelikostStranky();
@@ -938,13 +976,11 @@ namespace DatoveStrukutrySemPraceA
                 vlastniVlastnosti = new VlastniVlastnostiTisku();
                 vlastniVlastnosti.Tisknout = dialogTiskuStranky.Tisknout();
                 vlastniVlastnosti.PomerStran = dialogTiskuStranky.PomerStran();
-                vlastniVlastnosti.Centrovani = dialogTiskuStranky.Centrovani();
                 vlastniVlastnosti.TextVZahlavi = dialogTiskuStranky.TextVZahlavi();
                 vlastniVlastnosti.TextVZapati = dialogTiskuStranky.TextVZapati();
                 vlastniVlastnosti.PosterovyTisk = dialogTiskuStranky.PosterovyTisk();
                 vlastniVlastnosti.Okraje = dialogTiskuStranky.Okraje();
                 vlastniVlastnosti.Meritko = dialogTiskuStranky.Meritko();
-                vlastniVlastnosti.Centrovani = dialogTiskuStranky.Centrovani();
                 vlastniVlastnosti.PosterovyTisk = dialogTiskuStranky.PosterovyTisk();
                 vlastniVlastnosti.PocetStranNaSirku = dialogTiskuStranky.PocetStranPosterovehoTiskuNaSirku();
                 vlastniVlastnosti.PocetStranNaVysku = dialogTiskuStranky.PocetStranPosterovehoTiskuNaVysku();

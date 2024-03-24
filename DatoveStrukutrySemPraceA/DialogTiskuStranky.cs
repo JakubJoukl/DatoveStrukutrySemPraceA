@@ -27,7 +27,7 @@ namespace DatoveStrukutrySemPraceA
             return posterovyTisk.Checked;
         }
         public PaperKind VelikostStranky() {
-            return (PaperKind)Enum.Parse(typeof(PaperKind), velikostCb.Text);
+            return (PaperKind)velikostCb.SelectedItem;
         }
         public Orientace Orientace() {
             return naSirku.Checked ? Editor.Orientace.NA_SIRKU : Editor.Orientace.NA_VYSKU;
@@ -37,9 +37,6 @@ namespace DatoveStrukutrySemPraceA
         }
         public Pomer_stran PomerStran() {
             return zachovatBtn.Checked ? Pomer_stran.ZACHOVAT : Pomer_stran.ROZTAHNOUT; 
-        }
-        public Centrovani Centrovani() {
-            return DleVrcholu.Checked ? Editor.Centrovani.DLE_VRCHOLU : Editor.Centrovani.DLE_KAMERY;
         }
         public Druh_posteroveho_tisku DruhPosterovehoTisku() {
             return poctemStran.Checked ? Druh_posteroveho_tisku.POCTEM_STRAN : Druh_posteroveho_tisku.MERITKEM;
@@ -60,7 +57,6 @@ namespace DatoveStrukutrySemPraceA
         public DialogTiskuStranky()
         {
             InitializeComponent();
-            velikostCb.Items.AddRange(new Object[] { PaperKind.A2, PaperKind.A3, PaperKind.A4, PaperKind.A5 });
         }
 
         private void groupBox6_Enter(object sender, EventArgs e)
@@ -126,8 +122,12 @@ namespace DatoveStrukutrySemPraceA
 
         }
 
-        public void NactiUlozeneVlastnosti(VlastniVlastnostiTisku vlastniVlastnostiTisku,
+        public void InicializujDialogANactiUlozeneVlastnosti(VlastniVlastnostiTisku vlastniVlastnostiTisku,
             PrinterSettings nastaveniTiskarny, PageSettings vlastnostiTisku) {
+
+            foreach (PaperSize vybranyFormat in nastaveniTiskarny.PaperSizes) {
+                velikostCb.Items.Add(vybranyFormat.Kind);
+            }
             velikostCb.Text = vlastnostiTisku.PaperSize.Kind.ToString();
             if (vlastnostiTisku.Landscape)
             {
@@ -148,6 +148,28 @@ namespace DatoveStrukutrySemPraceA
             else {
                 viditelnouCast.Checked = true;
             }
+            if (vlastniVlastnostiTisku.PomerStran == Pomer_stran.ZACHOVAT)
+            {
+                zachovatBtn.Checked = true;
+            }
+            else { 
+                roztahnoutBtn.Checked = true;
+            }
+            textVZahlaviTxt.Text = vlastniVlastnostiTisku.TextVZahlavi;
+            textVZapatiTxt.Text = vlastniVlastnostiTisku.TextVZapati;
+            posterovyTisk.Checked = vlastniVlastnostiTisku.PosterovyTisk;
+            if (vlastniVlastnostiTisku.DruhPosterovehoTisku == Druh_posteroveho_tisku.POCTEM_STRAN)
+            {
+                poctemStran.Checked = true;
+                meritkem.Checked = false;
+            }
+            else {
+                poctemStran.Checked = false;
+                meritkem.Checked = true;
+            }
+            pocetStranekNaVysku.Value = vlastniVlastnostiTisku.PocetStranNaVysku;
+            pocetStranekNaSirku.Value = vlastniVlastnostiTisku.PocetStranNaSirku;
+            meritkoNm.Value = vlastniVlastnostiTisku.Meritko;
             //if(vlastniVlastnostiTisku)
         }
     }

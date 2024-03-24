@@ -14,7 +14,7 @@ namespace DatoveStrukutrySemPraceA.Editor
         public string TextVZahlavi {  get; set; }
         public string TextVZapati { get; set; }
         public bool PosterovyTisk { get; set; }
-        public Okraje Okraje {  get; set; }
+        public Okraje Okraje {  get; set; } = new Okraje(0, 0, 0, 0);
         public Druh_posteroveho_tisku DruhPosterovehoTisku { get; set; }
         public int Meritko { get; set; }
         public int PocetStranNaVysku { get; set; }
